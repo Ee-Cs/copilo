@@ -1,0 +1,71 @@
+services:
+   # ptc: producer + transformer + consumer
+   ptc-zookeeper:
+      container_name: ptc-zookeeper
+      image: wurstmeister/zookeeper
+      ports:
+      - "2182:2181"
+      restart: unless-stopped
+      environment:
+         KAFKA_ADVERTISED_HOST_NAME: ptc-zookeeper
+   ptc-kafka:
+      container_name: ptc-kafka
+      image: wurstmeister/kafka
+      ports:
+      - "9093:9092"
+      restart: unless-stopped
+      environment:
+         KAFKA_CREATE_TOPICS: "prod-1:1:1,prod-2:1:1,cons-1:1:1,cons-2:1:1"
+         KAFKA_ADVERTISED_HOST_NAME: ptc-kafka
+         KAFKA_ADVERTISED_PORT: 9092
+         KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://ptc-kafka:9092"
+         KAFKA_ZOOKEEPER_CONNECT: ptc-zookeeper:2181
+      depends_on:
+      - ptc-zookeeper
+   ptc-consumer-1:
+      container_name: ptc-consumer-1
+      image: eeengcs/study04:1.0.0-SNAPSHOT
+      command: ['java', '-jar', 'application.jar', 'consumer1']
+      restart: unless-stopped
+      depends_on:
+      - ptc-kafka
+   ptc-consumer-2:
+      container_name: ptc-consumer-2
+      image: eeengcs/study04:1.0.0-SNAPSHOT
+      command: ["java", "-jar", "application.jar", "consumer2"]
+      restart: unless-stopped
+      depends_on:
+      - ptc-kafka
+      - ptc-consumer-1
+   ptc-transformer:
+      container_name: ptc-transformer
+      image: eeengcs/study04:1.0.0-SNAPSHOT
+      command: ["java", "-jar", "application.jar", "transformer"]
+      restart: unless-stopped
+      depends_on:
+      - ptc-kafka
+      - ptc-consumer-2
+   ptc-counter:
+      container_name: ptc-counter
+      image: eeengcs/study04:1.0.0-SNAPSHOT
+      command: ["java", "-jar", "application.jar", "counter"]
+      restart: unless-stopped
+      depends_on:
+      - ptc-kafka
+      - ptc-transformer
+   ptc-comparer:
+      container_name: ptc-comparer
+      image: eeengcs/study04:1.0.0-SNAPSHOT
+      command: ["java", "-jar", "application.jar", "comparer"]
+      restart: unless-stopped
+      depends_on:
+      - ptc-kafka
+      - ptc-counter
+   ptc-producer:
+      container_name: ptc-producer
+      image: eeengcs/study04:1.0.0-SNAPSHOT
+      command: ["java", "-jar", "application.jar", "producer"]
+      restart: unless-stopped
+      depends_on:
+      - ptc-kafka
+      - ptc-comparer
