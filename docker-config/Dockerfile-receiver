@@ -1,9 +1,0 @@
-FROM maven AS maven_tool
-COPY pom.xml /tmp/
-COPY src /tmp/src/
-WORKDIR /tmp/
-RUN mvn clean package -DskipTests
-
-FROM eclipse-temurin:23
-COPY --from=maven_tool /tmp/target/Study05_kafka-receiver-1.0.0-SNAPSHOT.jar application.jar
-ENTRYPOINT ["java","-Dspring.cloud.stream.kafka.binder.brokers=spr-kafka","-jar","application.jar"]
