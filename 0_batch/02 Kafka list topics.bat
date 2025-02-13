@@ -1,10 +1,9 @@
 @echo off
-set EXEC_KAFKA_TOPICS=docker exec -t ptc-kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092
-set TOPICS=prod-1, prod-2, cons-1, cons-2
+set EXEC_KAFKA_TOPICS=docker exec -t spr-kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092
 
 %EXEC_KAFKA_TOPICS% --list 
 echo ------------------------------------------------------------------------------------------
-for %%T in (%TOPICS%) do (
+for %%T in (kp-1 kp-2) do (
 	%EXEC_KAFKA_TOPICS% --describe --topic %%T
 	echo ------------------------------------------------------------------------------------------
 )

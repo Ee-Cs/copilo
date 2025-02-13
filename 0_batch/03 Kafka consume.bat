@@ -1,3 +1,3 @@
 @echo off
-docker exec -it ptc-kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic cons-1
+docker exec -it spr-kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic kp-2
 pause

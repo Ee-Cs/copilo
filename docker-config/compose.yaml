@@ -1,71 +1,41 @@
 services:
-   # ptc: producer + transformer + consumer
-   ptc-zookeeper:
-      container_name: ptc-zookeeper
+   # spr: sender + processor + receiver
+   spr-zookeeper:
+      container_name: spr-zookeeper
       image: wurstmeister/zookeeper
       ports:
-      - "2182:2181"
+      - "2181:2181"
       restart: unless-stopped
       environment:
-         KAFKA_ADVERTISED_HOST_NAME: ptc-zookeeper
-   ptc-kafka:
-      container_name: ptc-kafka
+         KAFKA_ADVERTISED_HOST_NAME: spr-zookeeper
+   spr-kafka:
+      container_name: spr-kafka
       image: wurstmeister/kafka
       ports:
-      - "9093:9092"
+      - "9092:9092"
       restart: unless-stopped
       environment:
-         KAFKA_CREATE_TOPICS: "prod-1:1:1,prod-2:1:1,cons-1:1:1,cons-2:1:1"
-         KAFKA_ADVERTISED_HOST_NAME: ptc-kafka
+         KAFKA_ADVERTISED_HOST_NAME: spr-kafka
          KAFKA_ADVERTISED_PORT: 9092
-         KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://ptc-kafka:9092"
-         KAFKA_ZOOKEEPER_CONNECT: ptc-zookeeper:2181
+         KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://spr-kafka:9092"
+         KAFKA_ZOOKEEPER_CONNECT: spr-zookeeper:2181
       depends_on:
-      - ptc-zookeeper
-   ptc-consumer-1:
-      container_name: ptc-consumer-1
-      image: eeengcs/study04:1.0.0-SNAPSHOT
-      command: ['java', '-jar', 'application.jar', 'consumer1']
+      - spr-zookeeper
+   spr-sender:
+      container_name: spr-sender
+      image: eeengcs/study05_kafka-sender:1.0.0-SNAPSHOT
       restart: unless-stopped
       depends_on:
-      - ptc-kafka
-   ptc-consumer-2:
-      container_name: ptc-consumer-2
-      image: eeengcs/study04:1.0.0-SNAPSHOT
-      command: ["java", "-jar", "application.jar", "consumer2"]
+      - spr-kafka
+   spr-processor:
+      container_name: spr-processor
+      image: eeengcs/study05_kafka-processor:1.0.0-SNAPSHOT
       restart: unless-stopped
       depends_on:
-      - ptc-kafka
-      - ptc-consumer-1
-   ptc-transformer:
-      container_name: ptc-transformer
-      image: eeengcs/study04:1.0.0-SNAPSHOT
-      command: ["java", "-jar", "application.jar", "transformer"]
+      - spr-kafka
+   spr-receiver:
+      container_name: spr-receiver
+      image: eeengcs/study05_kafka-receiver:1.0.0-SNAPSHOT
       restart: unless-stopped
       depends_on:
-      - ptc-kafka
-      - ptc-consumer-2
-   ptc-counter:
-      container_name: ptc-counter
-      image: eeengcs/study04:1.0.0-SNAPSHOT
-      command: ["java", "-jar", "application.jar", "counter"]
-      restart: unless-stopped
-      depends_on:
-      - ptc-kafka
-      - ptc-transformer
-   ptc-comparer:
-      container_name: ptc-comparer
-      image: eeengcs/study04:1.0.0-SNAPSHOT
-      command: ["java", "-jar", "application.jar", "comparer"]
-      restart: unless-stopped
-      depends_on:
-      - ptc-kafka
-      - ptc-counter
-   ptc-producer:
-      container_name: ptc-producer
-      image: eeengcs/study04:1.0.0-SNAPSHOT
-      command: ["java", "-jar", "application.jar", "producer"]
-      restart: unless-stopped
-      depends_on:
-      - ptc-kafka
-      - ptc-comparer
+      - spr-kafka
