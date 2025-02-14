@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="TriageDefinitions_01" name="Defect&#39;s Triage Definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.18.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.4.0" camunda:diagramRelationId="88ce1997-8af9-4a80-891c-52f423cd1028">
+  <decision id="TriageDecision_01" name="Triage Decision">
+    <decisionTable id="DecisionTable_01">
+      <input id="Input_1" label="Issue Impact">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>impact</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1435giw">
+          <text>"high","medium","low"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_0lvro0h" label="Issue Urgency">
+        <inputExpression id="LiteralExpression_07i3bgs" typeRef="string">
+          <text>urgency</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_00vu5py">
+          <text>"high","medium","low"</text>
+        </inputValues>
+      </input>
+      <output id="Output_1" label="Priority Score" name="priority" typeRef="number" biodi:width="192" />
+      <rule id="DecisionRule_0o8d8m7">
+        <description></description>
+        <inputEntry id="UnaryTests_1scv3cb">
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tdcz0j">
+          <text>"high"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1c62lkb">
+          <text>100</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1sw96o8">
+        <inputEntry id="UnaryTests_18sbjmy">
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i3vsu1">
+          <text>"high"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00lkoiq">
+          <text>80</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1xzfwjl">
+        <inputEntry id="UnaryTests_1se399t">
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0koocz9">
+          <text>"high"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1b07a0g">
+          <text>40</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1nga226">
+        <inputEntry id="UnaryTests_1sxz4u3">
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0omqggp">
+          <text>"medium"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1b765et">
+          <text>70</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ga42hk">
+        <inputEntry id="UnaryTests_1w8m1f1">
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tdkulo">
+          <text>"medium"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0c23ftd">
+          <text>50</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1qnbx9u">
+        <inputEntry id="UnaryTests_06ze249">
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j0trms">
+          <text>"medium"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1091om4">
+          <text>20</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1uo2h8w">
+        <inputEntry id="UnaryTests_1uoqm5p">
+          <text>"high"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i9aynb">
+          <text>"low"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0jiwa61">
+          <text>30</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06do27t">
+        <inputEntry id="UnaryTests_02xrm2m">
+          <text>"medium"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02584mk">
+          <text>"low"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qrd8ce">
+          <text>10</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_13ygxcc">
+        <description></description>
+        <inputEntry id="UnaryTests_12vkdka">
+          <text>"low"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hqpkum">
+          <text>"low"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wwkj4v">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="TriageDecision_01">
+        <dc:Bounds height="80" width="180" x="160" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
