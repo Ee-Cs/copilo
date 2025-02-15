@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Study07</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="icon" href="/static/favicon.ico" />
+<style>
+body {
+  background-color: wheat;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+caption {
+  padding: 5px;
+}
+table td {
+  padding: 3px;
+  border: 1px solid black;
+}
+.col-1 {
+  width: 30%
+}
+.col-2 {
+  width: 70%
+}
+.col-3 {
+  width: 25%
+}
+</style>
+</head>
+<body>
+<h2>Study07 - Hypermedia-based RESTful Web Service</h2>
+<h2>The implementation with JpaRepository and H2 database</h2>
+<table>
+<tr><td class="col-1">
+	Load sample dataset : 2 departments
+</td><td class="col-2">
+	<a href="http://localhost:8080/loadSampleDataset">/loadSampleDataset</a>
+</td></tr>
+<tr><td class="col-1">
+	Load sample dataset : 15 departments
+</td><td class="col-2">
+	<a href="http://localhost:8080/loadSampleDataset?depIndex=15">/loadSampleDataset?depIndex=15</a>
+</td></tr>
+</table>
+
+<p>1.1. The endpoints generated for <b>Department</b>
+<table>
+<tr><td class="col-1">
+	<i>Some endpoints selected from default set</i>
+</td><td class="col-2">
+</td></tr>
+<tr><td style="border:3px solid darkorange" colspan="2"><table>
+	<tr><td class="col-1">
+		Get all <b>departments</b>
+	</td><td class="col-2">
+		<a href="http://localhost:8080/departments">/departments</a>
+	</td></tr>
+	<tr><td class="col-1">
+		Get all <b>departments</b> on 3rd <mark>page</mark>
+	</td><td class="col-2">
+		<a href="http://localhost:8080/departments?page=2&size=3&sort=name,asc">
+		/departments?page=2&size=3&sort=name,asc</a>
+	</td></tr>
+	<tr><td class="col-1">
+		Get the <b>department</b>
+	</td><td class="col-2">
+		<a href="http://localhost:8080/departments/1">/departments/1</a>
+	</td></tr>
+	<tr><td class="col-1">
+		Get the <b>employees</b> of the department
+	</td><td class="col-2">
+		<a href="http://localhost:8080/departments/1/employees">/departments/1/employees</a>
+	</td></tr>
+</table></td></tr>
+<tr><td class="col-1"></td><td class="col-2"></td></tr>
+<tr><td class="col-1">
+	<i>Five endpoints based on <b>DepartmentRepository</b></i>
+</td><td class="col-2">
+	<a href="http://localhost:8080/departments/search">/departments/search</a>
+</td></tr>
+<tr><td style="border:3px solid darkorange" colspan="2"><table>
+	<tr><td class="col-1">
+		Find all <b>departments</b> on 3rd <mark>slice</mark>
+	</td><td class="col-2">
+		<a href="http://localhost:8080/departments/search/findAllByOrderByName?page=2&amp;size=3&amp;sort=name,asc">
+		/departments/search/findAllByOrderByName?page=2&amp;size=3&amp;sort=name,asc</a>
+	</td></tr>
+	<tr><td class="col-1">
+		Find <b>departments</b> by name
+	</td><td class="col-2">
+		<a href="http://localhost:8080/departments/search/findByName?name=D-Name-01">
+		/departments/search/findByName?name=D-Name-01</a>
+	</td></tr>
+	<tr><td class="col-1">
+		Count <b>departments</b> by name
+	</td><td class="col-2">
+		<a href="http://localhost:8080/departments/search/countByName?name=D-Name-01">
+		/departments/search/countByName?name=D-Name-01</a>
+	</td></tr>
+	<tr><td class="col-1">
+		Count <b>employees</b> in the department with id
+	</td><td class="col-2">
+		<a href="http://localhost:8080/departments/search/countByCustomQuery?id=1">
+		/departments/search/countByCustomQuery?id=1</a>
+	</td></tr>
+	<tr><td class="col-1">
+		Delete <b>departments</b> by name
+	</td><td class="col-2">
+		<a href="http://localhost:8080/departments/search/deleteByName?name=D-Name-01">
+		/departments/search/deleteByName?name=D-Name-01</a>
+	</td></tr>
+</table></td></tr>
+</table>
+
+<p>1.2. The endpoints generated for <b>Employee</b>
+<table>
+<tr><td class="col-1">
+	<i>Some endpoints selected from default set</i>
+</td><td class="col-2">
+<tr><td style="border:3px solid darkorange" colspan="2"><table>
+	<tr><td class="col-1">
+		Get all <b>employees</b>
+	</td><td class="col-2">
+		<a href="http://localhost:8080/employees">/employees</a>
+	</td></tr>
+	<tr><td class="col-1">
+		Get the <b>employee</b>
+	</td><td class="col-2">
+		<a href="http://localhost:8080/employees/101">/employees/101</a>
+	</td></tr>
+	<tr><td class="col-1">
+		Get the <b>department</b> of the employee
+	</td><td class="col-2">
+		<a href="http://localhost:8080/employees/101/department">/employees/101/department</a>
+	</td></tr>
+	<tr><td class="col-1"></td><td class="col-2"></td></tr>
+</table></td></tr>
+<tr><td class="col-1">
+	<i>Three endpoints based on <b>EmployeeRepository</b></i>
+</td><td class="col-2">
+	<a href="http://localhost:8080/employees/search">
+	/employees/search</a>
+</td></tr>
+<tr><td style="border:3px solid darkorange" colspan="2"><table>
+	<tr><td class="col-1">
+		Find <b>employees</b> by first name and last name
+	</td><td class="col-2">
+		<a href="http://localhost:8080/employees/search/findByFirstNameAndLastNameOrderByLastName?firstName=EF-Name-101&amp;lastName=EL-Name-101">
+		/employees/search/findByFirstNameAndLastNameOrderByLastName?firstName=EF-Name-101&amp;lastName=EL-Name-101</a>
+	</td></tr>
+	<tr><td class="col-1">
+		Find <b>employees</b> by first name and last name<br/>
+		using <code>'LIKE'</code> pattern
+	</td><td class="col-2">
+		<a href="http://localhost:8080/employees/search/findByFirstNameLikeAndLastNameLikeOrderByLastName?firstName=%2501&amp;lastName=%2501">
+		/employees/search/findByFirstNameLikeAndLastNameLikeOrderByLastName?firstName=%01&amp;lastName=%01</a>
+	</td></tr>
+	<tr><td class="col-1">
+		Find <b>employees</b> by department name
+	</td><td class="col-2">
+		<a href="http://localhost:8080/employees/search/findByDepartmentNameOrderByLastNameDesc?name=D-Name-01">
+		/employees/search/findByDepartmentNameOrderByLastNameDesc?name=D-Name-01</a>
+	</td></tr>
+</table></td></tr>
+</table>
+
+<hr/>
+
+<p>2. The <b>Application-Level Profile Semantics</b> (ALPS) links
+<table>
+<tr><td class="col-1">
+	<a href="http://localhost:8080/profile">/profile</a>
+</td><td class="col-1">
+	<a href="http://localhost:8080/profile/departments">/profile/departments</a>
+</td><td class="col-1">
+	<a href="http://localhost:8080/profile/employees">/profile/employees</a>
+</td></tr>
+</table>
+
+<p>3. The <b>Spring Boot Actuator</b> links
+<table>
+<tr><td class="col-3">
+	<a href="http://localhost:8080/actuator/health">Application health</a><br/>
+</td><td class="col-3">
+	<a href="http://localhost:8080/actuator/mappings">URL Mappings</a><br/>
+</td><td class="col-3">
+	<a href="http://localhost:8080/actuator/metrics">Metrics</a><br/>
+</td><td class="col-3">
+	<a href="http://localhost:8080/actuator/configprops">Configuration Properties</a><br/>
+</td></tr>
+<tr><td class="col-3">
+	<a href="http://localhost:8080/actuator"><i>List of actuator endpoints</i></a><br/>
+</td><td class="col-3">
+	<a href="http://localhost:8080/actuator/beans">Beans</a><br/>
+</td><td class="col-3">
+	<a href="http://localhost:8080/actuator/metrics/http.server.requests">Metrics 'http.server.requests'</a><br/>
+</td><td class="col-3">
+	<a href="http://localhost:8080/actuator/env">Environment</a><br/>
+</td></tr>
+</table>
+
+</body>
+</html>

@@ -1,21 +1,12 @@
-package kp;
+package kp.company;
 
-import io.camunda.zeebe.spring.client.annotation.Deployment;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * The SpringBoot application with enabled Zeebe client.
- * <p>
- * The process solution with included process definitions:
- * </p>
- * <ul>
- *     <li>BPMN diagram</li>
- *     <li>DRD diagram</li>
- * </ul>
+ * An application that accesses relational JPA data through a hypermedia-based RESTful Web Service.
  */
 @SpringBootApplication
-@Deployment(resources = Constants.BUSINESS_PROCESS_DIAGRAM)
 public class Application {
 
     /**
