@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>[[#{departments}]]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../static/css/main.css" th:href="@{/css/main.css}" />
+<link rel="shortcut icon" href="../../static/images/favicon.ico"
+	th:href="@{/images/favicon.ico}" />
+</head>
+<body>
+	<div class="menu">
+		<p>
+			&#160;&#187;&#160; <a th:href="@{/company}">[[#{company}]]</a>
+			<!--  -->
+			&#160;&#187;&#160; [[#{departments}]]
+		</p>
+	</div>
+	<div class="center" th:unless="${#lists.isEmpty(departmentCollection)}">
+		<table>
+			<caption>[[#{departments}]]</caption>
+			<thead>
+				<tr>
+					<th class="ordinal"></th>
+					<th>[[#{id}]]</th>
+					<th>[[#{name}]]</th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="dep,depStat : ${departmentCollection}">
+					<td class="ordinal">[[${depStat.count}]].</td>
+					<td>[[${dep.id}]]</td>
+					<td>[[${dep.name}]]</td>
+					<td><a th:href="@{/listEmployees(departmentId=${dep.id})}">
+							[[#{employees}]]</a></td>
+					<td><a
+						th:href="@{/startDepartmentEditing(departmentId=${dep.id})}">
+							[[#{edit}]]</a></td>
+					<td><a
+						th:href="@{/startDepartmentDeleting(departmentId=${dep.id})}">
+							[[#{delete}]]</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="bottom">
+		<a th:href="@{/startDepartmentAdding}">[[#{addDepartment}]]</a>
+	</div>
+</body>
+</html>

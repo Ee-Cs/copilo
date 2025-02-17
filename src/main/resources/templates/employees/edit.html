@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>[[${employee.id} == 0 ? #{addEmployee} :
+	#{editEmployee}]]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../static/css/main.css" th:href="@{/css/main.css}" />
+<link rel="shortcut icon" href="../../static/images/favicon.ico"
+	th:href="@{/images/favicon.ico}" />
+</head>
+<body>
+	<div class="edit">
+		<form th:action="@{/finishEmployeeEditing}" th:object="${employee}"
+			method="post">
+			<fieldset>
+				<legend>[[*{id} == 0 ? #{addEmployee} : #{editEmployee}]]</legend>
+				<input type="hidden" th:field="*{id}"/>
+				<!-- -->
+				<input type="hidden" th:field="*{departmentId}"/>
+				<div class="row">
+					<div class="left-col">
+						<label th:for="firstName">[[#{firstName}]]</label>
+					</div>
+					<div class="right-col">
+						<input type="text" th:field="*{firstName}"
+							th:errorclass="fieldError"/>
+					</div>
+				</div>
+				<div class="errors" th:if="${#fields.hasErrors('firstName')}">
+					[[#{errors}]]:
+					<ul>
+						<li th:each="err : ${#fields.errors('firstName')}">[[${err}]]</li>
+					</ul>
+				</div>
+				<div class="row">
+					<div class="left-col">
+						<label th:for="lastName">[[#{lastName}]]</label>
+					</div>
+					<div class="right-col">
+						<input type="text" th:field="*{lastName}"
+							th:errorclass="fieldError"/>
+					</div>
+				</div>
+				<div class="errors" th:if="${#fields.hasErrors('lastName')}">
+					[[#{errors}]]:
+					<ul>
+						<li th:each="err : ${#fields.errors('lastName')}">[[${err}]]</li>
+					</ul>
+				</div>
+				<div class="row">
+					<div class="left-col">
+						<label th:for="title">[[#{title}]]</label>
+					</div>
+					<div class="right-col">
+						<select th:field="${employee.title}">
+							<option th:each="t : ${titles}" th:value="${t}">
+								[[${t.name}]]</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="left-col">
+						<button type="submit" name="save">[[#{save}]]</button>
+					</div>
+					<div class="right-col">
+						<button type="submit" name="cancel">[[#{cancel}]]</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</body>
+</html>

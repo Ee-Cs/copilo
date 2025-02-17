@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>[[#{deleteDepartment}]]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../static/css/main.css" th:href="@{/css/main.css}" />
+<link rel="shortcut icon" href="../../static/images/favicon.ico"
+	th:href="@{/images/favicon.ico}" />
+</head>
+<body>
+	<div class="edit">
+		<form action="#" th:action="@{/finishDepartmentDeleting}"
+			th:object="${department}" method="post">
+			<fieldset>
+				<legend>[[#{deleteDepartment}]]</legend>
+				<input type="hidden" th:field="*{id}"/>
+				<div class="row">
+					<div class="left-col">
+						<label th:for="name">[[#{name}]]</label>
+					</div>
+					<div class="right-col">
+						<input type="text" th:field="*{name}" disabled/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="left-col">
+						<button type="submit" name="delete">[[#{delete}]]</button>
+					</div>
+					<div class="right-col">
+						<button type="submit" name="cancel">[[#{cancel}]]</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</body>
+</html>

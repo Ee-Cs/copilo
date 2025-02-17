@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Application Error</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../static/css/main.css" th:href="@{/css/main.css}" />
+<link rel="shortcut icon" href="../../static/images/favicon.ico"
+	th:href="@{/images/favicon.ico}" />
+</head>
+<body>
+	<h2 class="errors">Application Error</h2>
+	<p>
+		&#160;&#187;&#160; <a th:href="@{/company}">[[#{company}]]</a>
+	</p>
+	<table>
+		<tr>
+			<td>Date</td>
+			<td>[[${timestamp}]]</td>
+		</tr>
+		<tr>
+			<td>Status</td>
+			<td>[[${status}]]</td>
+		</tr>
+		<tr>
+			<td>Error</td>
+			<td>[[${error}]]</td>
+		</tr>
+		<tr>
+			<td>Message</td>
+			<td>[[${message}]]</td>
+		</tr>
+		<tr>
+			<td>Path</td>
+			<td>[[${path}]]</td>
+		</tr>
+		<tr>
+			<td>Trace</td>
+			<td><textarea rows="20" cols="80" wrap="soft">[[${trace}]]</textarea></td>
+		</tr>
+	</table>
+</body>
+</html>

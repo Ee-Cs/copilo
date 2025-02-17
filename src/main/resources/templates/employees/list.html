@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>[[#{employees}]]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../static/css/main.css" th:href="@{/css/main.css}" />
+<link rel="shortcut icon" href="../../static/images/favicon.ico"
+	th:href="@{/images/favicon.ico}" />
+</head>
+<body>
+	<div class="menu">
+		<p>
+			&#160;&#187;&#160; <a th:href="@{/company}">[[#{company}]]</a>
+			<!--  -->
+			&#160;&#187;&#160; <a th:href="@{/listDepartments}">[[#{departments}]]</a>
+			<!--  -->
+			&#160;&#187;&#160; [[#{employees}]]
+		</p>
+	</div>
+	<div class="center">
+		<table>
+			<caption>[[#{department}]]</caption>
+			<thead>
+				<tr>
+					<th>[[#{id}]]</th>
+					<th>[[#{name}]]</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>[[${department.id}]]</td>
+					<td>[[${department.name}]]</td>
+				</tr>
+			</tbody>
+		</table>
+		<div th:unless="${#lists.isEmpty(department.employeeCollection)}">
+			<table>
+				<caption>[[#{employees}]]</caption>
+				<thead>
+					<tr>
+						<th class="ordinal"></th>
+						<th>[[#{id}]]</th>
+						<th>[[#{firstName}]]</th>
+						<th>[[#{lastName}]]</th>
+						<th>[[#{title}]]</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="emp,empStat : ${department.employeeCollection}">
+						<td class="ordinal">[[${empStat.count}]].</td>
+						<td>[[${emp.id}]]</td>
+						<td>[[${emp.firstName}]]</td>
+						<td>[[${emp.lastName}]]</td>
+						<td>[[${emp.title.name}]]</td>
+						<td><a
+							th:href="@{/startEmployeeEditing(departmentId=${department.id}, employeeId=${emp.id})}">
+								[[#{edit}]]</a></td>
+						<td><a
+							th:href="@{/startEmployeeDeleting(departmentId=${department.id}, employeeId=${emp.id})}">
+								[[#{delete}]]</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="bottom">
+		<a th:href="@{/startEmployeeAdding(departmentId=${department.id})}">
+			[[#{addEmployee}]]</a>
+	</div>
+</body>
+</html>

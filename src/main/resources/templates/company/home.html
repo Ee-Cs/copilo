@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>[[#{company}]]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../static/css/main.css" th:href="@{/css/main.css}" />
+<link rel="shortcut icon" href="../../static/images/favicon.ico"
+	th:href="@{/images/favicon.ico}" />
+</head>
+<body>
+	<div class="menu">
+		<p>&#160;&#187;&#160; [[#{company}]]</p>
+	</div>
+	<div class="bottom">
+		<a th:href="@{/listDepartments}">[[#{departments}]]</a>
+	</div>
+</body>
+</html>
