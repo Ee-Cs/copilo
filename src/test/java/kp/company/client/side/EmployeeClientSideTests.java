@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Client side tests for employee.
+ * Client-side tests for the employee.
  */
 class EmployeeClientSideTests extends ClientSideTestsBase {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -38,8 +38,8 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldListEmployees() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/listEmployees?departmentId=%s", port,
-                TEST_DEPARTMENT_ID_PARAM);
+        final String requestUrl = "http://localhost:%d/listEmployees?departmentId=%s".formatted(
+                port, TEST_DEPARTMENT_ID_PARAM);
         // WHEN
         final ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
         // THEN
@@ -60,8 +60,8 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldStartAddingEmployee() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/startEmployeeAdding?departmentId=%s", port,
-                TEST_DEPARTMENT_ID_PARAM);
+        final String requestUrl = "http://localhost:%d/startEmployeeAdding?departmentId=%s".formatted(
+                port, TEST_DEPARTMENT_ID_PARAM);
         // WHEN
         final ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
         // THEN
@@ -81,9 +81,8 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldStartEditingEmployee() {
         // GIVEN
-        final String requestUrl = String.format(
-                "http://localhost:%s/startEmployeeEditing?departmentId=%s&employeeId=%s", port,
-                TEST_DEPARTMENT_ID_PARAM, TEST_EMPLOYEE_ID_PARAM);
+        final String requestUrl = "http://localhost:%d/startEmployeeEditing?departmentId=%s&employeeId=%s".formatted(
+                port, TEST_DEPARTMENT_ID_PARAM, TEST_EMPLOYEE_ID_PARAM);
         // WHEN
         final ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
         // THEN
@@ -103,9 +102,8 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldGetNotFoundErrorOnEditingAbsentEmployee() {
         // GIVEN
-        final String requestUrl = String.format(
-                "http://localhost:%s/startEmployeeEditing?departmentId=%s&employeeId=%s", port,
-                TEST_DEPARTMENT_ID_PARAM, ABSENT_ID);
+        final String requestUrl = "http://localhost:%d/startEmployeeEditing?departmentId=%s&employeeId=%s".formatted(
+                port, TEST_DEPARTMENT_ID_PARAM, ABSENT_ID);
         // WHEN
         final ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
         // THEN
@@ -119,7 +117,7 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldSaveEmployee() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/finishEmployeeEditing", port);
+        final String requestUrl = "http://localhost:%d/finishEmployeeEditing".formatted(port);
         final HttpEntity<MultiValueMap<String, String>> request = prepareSavingRequest("save");
         // WHEN
         final ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, request, String.class);
@@ -141,7 +139,7 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldValidateEmployeeAndShowValidationError() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/finishEmployeeEditing", port);
+        final String requestUrl = "http://localhost:%d/finishEmployeeEditing".formatted(port);
         final HttpEntity<MultiValueMap<String, String>> request = prepareSavingRequest("save");
         Optional.ofNullable(request.getBody()).ifPresent(map -> map.set("firstName", null));
         // WHEN
@@ -161,7 +159,7 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldCancelEditingEmployee() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/finishEmployeeEditing", port);
+        final String requestUrl = "http://localhost:%d/finishEmployeeEditing".formatted(port);
         final HttpEntity<MultiValueMap<String, String>> request = prepareSavingRequest("cancel");
         // WHEN
         final ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, request, String.class);
@@ -185,9 +183,8 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldStartDeletingEmployee() {
         // GIVEN
-        final String requestUrl = String.format(
-                "http://localhost:%s/startEmployeeDeleting?departmentId=%s&employeeId=%s", port,
-                TEST_DEPARTMENT_ID_PARAM, TEST_EMPLOYEE_ID_PARAM);
+        final String requestUrl = "http://localhost:%d/startEmployeeDeleting?departmentId=%s&employeeId=%s".formatted(
+                port, TEST_DEPARTMENT_ID_PARAM, TEST_EMPLOYEE_ID_PARAM);
         // WHEN
         final ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
         // THEN
@@ -207,7 +204,7 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldDeleteEmployee() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/finishEmployeeDeleting", port);
+        final String requestUrl = "http://localhost:%d/finishEmployeeDeleting".formatted(port);
         final HttpEntity<MultiValueMap<String, String>> request = prepareDeletingRequest("delete");
         // WHEN
         final ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, request, String.class);
@@ -228,7 +225,7 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldCancelDeletingEmployee() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/finishEmployeeDeleting", port);
+        final String requestUrl = "http://localhost:%d/finishEmployeeDeleting".formatted(port);
         final HttpEntity<MultiValueMap<String, String>> request = prepareDeletingRequest("cancel");
         // WHEN
         final ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, request, String.class);

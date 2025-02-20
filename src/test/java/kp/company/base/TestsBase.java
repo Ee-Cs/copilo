@@ -14,7 +14,7 @@ import org.springframework.context.support.MessageSourceAccessor;
  */
 public abstract class TestsBase {
     /**
-     * The {@link MessageSourceAccessor}
+     * The {@link MessageSourceAccessor}.
      */
     protected MessageSourceAccessor accessor;
 

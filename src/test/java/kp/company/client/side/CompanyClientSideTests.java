@@ -9,18 +9,18 @@ import org.slf4j.LoggerFactory;
 import java.lang.invoke.MethodHandles;
 
 /**
- * Client side tests for company.
+ * Client-side tests for the company.
  */
 class CompanyClientSideTests extends ClientSideTestsBase {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     /**
-     * Should forward from root to index page.
+     * Test to verify forwarding from root to the index page.
      */
     @Test
     void shouldForwardFromRootToIndexPage() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/", port);
+        final String requestUrl = "http://localhost:%d/".formatted(port);
         // WHEN
         final String result = restTemplate.getForObject(requestUrl, String.class);
         // THEN
@@ -29,12 +29,12 @@ class CompanyClientSideTests extends ClientSideTestsBase {
     }
 
     /**
-     * Should get company.
+     * Test to verify retrieving the home page.
      */
     @Test
     void shouldGetHomePage() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/company", port);
+        final String requestUrl = "http://localhost:%d/company".formatted(port);
         // WHEN
         final String result = restTemplate.getForObject(requestUrl, String.class);
         // THEN

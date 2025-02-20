@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Client side tests for department.
+ * Client-side tests for the department.
  */
 class DepartmentClientSideTests extends ClientSideTestsBase {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -37,7 +37,7 @@ class DepartmentClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldListDepartments() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/listDepartments", port);
+        final String requestUrl = "http://localhost:%d/listDepartments".formatted(port);
         // WHEN
         final ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
         // THEN
@@ -56,7 +56,7 @@ class DepartmentClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldStartAddingDepartment() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/startDepartmentAdding", port);
+        final String requestUrl = "http://localhost:%d/startDepartmentAdding".formatted(port);
         // WHEN
         final ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
         // THEN
@@ -74,8 +74,8 @@ class DepartmentClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldStartEditingDepartment() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/startDepartmentEditing?departmentId=%s", port,
-                TEST_DEPARTMENT_ID_PARAM);
+        final String requestUrl = "http://localhost:%d/startDepartmentEditing?departmentId=%s".formatted(
+                port, TEST_DEPARTMENT_ID_PARAM);
         // WHEN
         final ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
         // THEN
@@ -93,8 +93,8 @@ class DepartmentClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldGetNotFoundErrorOnEditingAbsentDepartment() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/startDepartmentEditing?departmentId=%s", port,
-                ABSENT_ID);
+        final String requestUrl = "http://localhost:%d/startDepartmentEditing?departmentId=%s".formatted(
+                port, ABSENT_ID);
         // WHEN
         final ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
         // THEN
@@ -108,7 +108,7 @@ class DepartmentClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldSaveDepartment() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/finishDepartmentEditing", port);
+        final String requestUrl = "http://localhost:%d/finishDepartmentEditing".formatted(port);
         final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
         paramMap.add("save", "");
         paramMap.add("id", TEST_DEPARTMENT_ID_PARAM);
@@ -131,7 +131,7 @@ class DepartmentClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldValidateDepartmentAndShowValidationError() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/finishDepartmentEditing", port);
+        final String requestUrl = "http://localhost:%d/finishDepartmentEditing".formatted(port);
         final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
         paramMap.add("save", "");
         paramMap.add("id", TEST_DEPARTMENT_ID_PARAM);
@@ -155,7 +155,7 @@ class DepartmentClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldCancelEditingDepartment() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/finishDepartmentEditing", port);
+        final String requestUrl = "http://localhost:%d/finishDepartmentEditing".formatted(port);
         final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
         paramMap.add("cancel", "");
         paramMap.add("id", TEST_DEPARTMENT_ID_PARAM);
@@ -179,8 +179,8 @@ class DepartmentClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldStartDeletingDepartment() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/startDepartmentDeleting?departmentId=%s", port,
-                TEST_DEPARTMENT_ID_PARAM);
+        final String requestUrl = "http://localhost:%d/startDepartmentDeleting?departmentId=%s".formatted(
+                port, TEST_DEPARTMENT_ID_PARAM);
         // WHEN
         final ResponseEntity<String> response = restTemplate.getForEntity(requestUrl, String.class);
         // THEN
@@ -198,7 +198,7 @@ class DepartmentClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldDeleteDepartment() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/finishDepartmentDeleting", port);
+        final String requestUrl = "http://localhost:%d/finishDepartmentDeleting".formatted(port);
         final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
         paramMap.add("delete", "");
         paramMap.add("id", TEST_DEPARTMENT_ID_PARAM);
@@ -220,7 +220,7 @@ class DepartmentClientSideTests extends ClientSideTestsBase {
     @Test
     void shouldCancelDeletingDepartment() {
         // GIVEN
-        final String requestUrl = String.format("http://localhost:%s/finishDepartmentDeleting", port);
+        final String requestUrl = "http://localhost:%d/finishDepartmentDeleting".formatted(port);
         final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
         paramMap.add("cancel", "");
         paramMap.add("id", TEST_DEPARTMENT_ID_PARAM);

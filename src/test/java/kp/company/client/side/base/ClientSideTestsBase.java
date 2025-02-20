@@ -7,12 +7,12 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 /**
- * The base class for client side tests.
+ * The base class for client-side tests.
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class ClientSideTestsBase extends TestsBase {
     /**
-     * {@link TestRestTemplate}.
+     * {@link TestRestTemplate} for making REST calls in tests.
      */
     @Autowired
     protected TestRestTemplate restTemplate;
