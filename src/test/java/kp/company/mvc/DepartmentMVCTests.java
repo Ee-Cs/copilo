@@ -4,11 +4,10 @@ import kp.company.controller.DepartmentController;
 import kp.company.mvc.base.MVCTestsBase;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.bean.override.convention.TestBean;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -19,15 +18,14 @@ import java.lang.invoke.MethodHandles;
 import static kp.TestConstants.*;
 
 /**
- * Application tests for department with server-side support.
- * <p>
- * The server is <b>not started</b>.
- * </p>
+ * Application tests for a department with server-side support.
  */
-@ExtendWith(SpringExtension.class)
 @WebMvcTest(DepartmentController.class)
 class DepartmentMVCTests extends MVCTestsBase {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    @TestBean(methodName = "createDepartmentController")
+    private DepartmentController departmentController;
 
     /**
      * Should list departments.
@@ -45,9 +43,8 @@ class DepartmentMVCTests extends MVCTestsBase {
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
         resultActions.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("departments"))));
-        // there is given department in the list
-        resultActions
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_DEPARTMENT_NAME)));
+        resultActions.andExpect(
+                MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_DEPARTMENT_NAME)));
         resultActions.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("addDepartment"))));
         logger.info("shouldListDepartments():");
@@ -93,8 +90,8 @@ class DepartmentMVCTests extends MVCTestsBase {
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
         resultActions.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("editDepartment"))));
-        resultActions
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_DEPARTMENT_NAME)));
+        resultActions.andExpect(
+                MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_DEPARTMENT_NAME)));
         resultActions.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("save"))));
         logger.info("shouldStartEditingDepartment():");
@@ -134,7 +131,9 @@ class DepartmentMVCTests extends MVCTestsBase {
         // WHEN
         final ResultActions resultActions = mockMvc.perform(requestBuilder);
         // THEN
-        /*- The HTTP response status code 302 'Temporary Redirect' is a common way of performing URL redirection. */
+        /*-
+         * The HTTP response status code 302 'Temporary Redirect' is a common way of performing URL redirection.
+         */
         resultActions.andExpect(MockMvcResultMatchers.status().isFound());
         resultActions.andExpect(MockMvcResultMatchers.redirectedUrl("/listDepartments"));
 
@@ -147,7 +146,6 @@ class DepartmentMVCTests extends MVCTestsBase {
         resultActionsRedirect.andExpect(MockMvcResultMatchers.status().isOk());
         resultActionsRedirect.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("departments"))));
-        // there is given department in the list
         resultActionsRedirect
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(CHANGED_DEPARTMENT_NAME)));
         resultActionsRedirect.andExpect(
@@ -174,7 +172,6 @@ class DepartmentMVCTests extends MVCTestsBase {
         resultActions.andExpect(MockMvcResultMatchers.model().attributeHasErrors("department"));
         resultActions.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("editDepartment"))));
-        // validation error
         resultActions.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("must not be blank")));
         resultActions.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("save"))));
@@ -209,7 +206,6 @@ class DepartmentMVCTests extends MVCTestsBase {
         resultActionsRedirect.andExpect(MockMvcResultMatchers.status().isOk());
         resultActionsRedirect.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("departments"))));
-        // canceled department is not found in the list
         resultActionsRedirect.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.not(Matchers.containsString(CHANGED_DEPARTMENT_NAME))));
         resultActionsRedirect
@@ -270,7 +266,6 @@ class DepartmentMVCTests extends MVCTestsBase {
         resultActionsRedirect.andExpect(MockMvcResultMatchers.status().isOk());
         resultActionsRedirect.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("departments"))));
-        // deleted department is not found in the list
         resultActionsRedirect.andExpect(MockMvcResultMatchers.content()
                 .string(Matchers.not(Matchers.containsString(EXPECTED_DEPARTMENT_NAME))));
         resultActionsRedirect.andExpect(
@@ -305,11 +300,11 @@ class DepartmentMVCTests extends MVCTestsBase {
         resultActionsRedirect.andExpect(MockMvcResultMatchers.status().isOk());
         resultActionsRedirect.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("departments"))));
-        // there is not deleted department in the list
         resultActionsRedirect
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_DEPARTMENT_NAME)));
         resultActionsRedirect.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("addDepartment"))));
         logger.info("shouldCancelDeletingDepartment():");
     }
+
 }

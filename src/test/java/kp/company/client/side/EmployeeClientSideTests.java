@@ -1,38 +1,36 @@
 package kp.company.client.side;
 
 import kp.company.client.side.base.ClientSideTestsBase;
+import kp.company.controller.EmployeeController;
 import kp.company.domain.Title;
 import kp.company.service.CompanyService;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.bean.override.convention.TestBean;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Locale;
+import java.util.Optional;
 
 import static kp.TestConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Client side tests for employee.
- * <p>
- * The server is <b>started</b>.
- * </p>
  */
-//@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class EmployeeClientSideTests extends ClientSideTestsBase {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    @TestBean(methodName = "createEmployeeController")
+    private EmployeeController employeeController;
 
     /**
      * Should list employees.
@@ -49,7 +47,6 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
         final String responseBody = response.getBody();
         assertThat(responseBody).contains(accessor.getMessage("employees"))
                 .contains(EXPECTED_DEPARTMENT_NAME)
-                // there is given employee in the list
                 .contains(EXPECTED_EMPLOYEE_FIRST_NAME)
                 .contains(EXPECTED_EMPLOYEE_LAST_NAME)
                 .contains(CompanyService.getTitleList().getFirst().getName())
@@ -123,33 +120,14 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     void shouldSaveEmployee() {
         // GIVEN
         final String requestUrl = String.format("http://localhost:%s/finishEmployeeEditing", port);
-        final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-        paramMap.add("save", "");
-        paramMap.add("id", TEST_EMPLOYEE_ID_PARAM);
-        paramMap.add("firstName", CHANGED_EMPLOYEE_FIRST_NAME);
-        paramMap.add("lastName", CHANGED_EMPLOYEE_LAST_NAME);
-        paramMap.add("title", Title.ANALYST.name().toUpperCase());
-        paramMap.add("departmentId", TEST_DEPARTMENT_ID_PARAM);
-        final HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(paramMap, new HttpHeaders());
+        final HttpEntity<MultiValueMap<String, String>> request = prepareSavingRequest("save");
         // WHEN
         final ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, request, String.class);
         // THEN
-        assertEquals(HttpStatus.FOUND, response.getStatusCode());
-        assertNotNull(response.getHeaders().getLocation());
-        assertEquals("/listEmployees", response.getHeaders().getLocation().getPath());
-        assertEquals("departmentId=" + TEST_DEPARTMENT_ID_PARAM, response.getHeaders().getLocation().getQuery());
-
-        // GIVEN
-        final String requestUrlRedirect = String.format("http://localhost:%s/listEmployees?departmentId=%s", port,
-                TEST_DEPARTMENT_ID_PARAM);
-        // WHEN
-        final ResponseEntity<String> responseRedirect = restTemplate.getForEntity(requestUrlRedirect, String.class);
-        // THEN
-        assertEquals(HttpStatus.OK, responseRedirect.getStatusCode());
-        final String responseBody = responseRedirect.getBody();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        final String responseBody = response.getBody();
         assertThat(responseBody).contains(accessor.getMessage("employees"))
                 .contains(EXPECTED_DEPARTMENT_NAME)
-                // there is given employee in the list
                 .contains(CHANGED_EMPLOYEE_FIRST_NAME)
                 .contains(CHANGED_EMPLOYEE_LAST_NAME)
                 .contains(CompanyService.getTitleList().getFirst().getName())
@@ -164,21 +142,14 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     void shouldValidateEmployeeAndShowValidationError() {
         // GIVEN
         final String requestUrl = String.format("http://localhost:%s/finishEmployeeEditing", port);
-        final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-        paramMap.add("save", "");
-        paramMap.add("id", TEST_EMPLOYEE_ID_PARAM);
-        paramMap.add("title", Title.ANALYST.name().toUpperCase());
-        paramMap.add("departmentId", TEST_DEPARTMENT_ID_PARAM);
-        final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(HttpHeaders.ACCEPT_LANGUAGE, Locale.US.toLanguageTag());
-        final HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(paramMap, httpHeaders);
+        final HttpEntity<MultiValueMap<String, String>> request = prepareSavingRequest("save");
+        Optional.ofNullable(request.getBody()).ifPresent(map -> map.set("firstName", null));
         // WHEN
         final ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, request, String.class);
         // THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
         final String responseBody = response.getBody();
         assertThat(responseBody).contains(accessor.getMessage("editEmployee"))
-                // validation error
                 .contains("must not be blank")
                 .contains(accessor.getMessage("save"));
         logger.info("shouldValidateEmployeeAndShowValidationError():");
@@ -191,33 +162,14 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     void shouldCancelEditingEmployee() {
         // GIVEN
         final String requestUrl = String.format("http://localhost:%s/finishEmployeeEditing", port);
-        final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-        paramMap.add("cancel", "");
-        paramMap.add("id", TEST_EMPLOYEE_ID_PARAM);
-        paramMap.add("firstName", CHANGED_EMPLOYEE_FIRST_NAME);
-        paramMap.add("lastName", CHANGED_EMPLOYEE_LAST_NAME);
-        paramMap.add("title", Title.ANALYST.name().toUpperCase());
-        paramMap.add("departmentId", TEST_DEPARTMENT_ID_PARAM);
-        final HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(paramMap, new HttpHeaders());
+        final HttpEntity<MultiValueMap<String, String>> request = prepareSavingRequest("cancel");
         // WHEN
         final ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, request, String.class);
         // THEN
-        assertEquals(HttpStatus.FOUND, response.getStatusCode());
-        assertNotNull(response.getHeaders().getLocation());
-        assertEquals("/listEmployees", response.getHeaders().getLocation().getPath());
-        assertEquals("departmentId=" + TEST_DEPARTMENT_ID_PARAM, response.getHeaders().getLocation().getQuery());
-
-        // GIVEN
-        final String requestUrlRedirect = String.format("http://localhost:%s/listEmployees?departmentId=%s", port,
-                TEST_DEPARTMENT_ID_PARAM);
-        // WHEN
-        final ResponseEntity<String> responseRedirect = restTemplate.getForEntity(requestUrlRedirect, String.class);
-        // THEN
-        assertEquals(HttpStatus.OK, responseRedirect.getStatusCode());
-        final String responseBody = responseRedirect.getBody();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        final String responseBody = response.getBody();
         assertThat(responseBody).contains(accessor.getMessage("employees"))
                 .contains(EXPECTED_DEPARTMENT_NAME)
-                // canceled employee is not found in the list
                 .doesNotContain(CHANGED_EMPLOYEE_FIRST_NAME)
                 .doesNotContain(CHANGED_EMPLOYEE_LAST_NAME)
                 .contains(EXPECTED_EMPLOYEE_FIRST_NAME)
@@ -256,30 +208,14 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     void shouldDeleteEmployee() {
         // GIVEN
         final String requestUrl = String.format("http://localhost:%s/finishEmployeeDeleting", port);
-        final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-        paramMap.add("delete", "");
-        paramMap.add("id", TEST_EMPLOYEE_ID_PARAM);
-        paramMap.add("departmentId", TEST_DEPARTMENT_ID_PARAM);
-        final HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(paramMap, new HttpHeaders());
+        final HttpEntity<MultiValueMap<String, String>> request = prepareDeletingRequest("delete");
         // WHEN
         final ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, request, String.class);
         // THEN
-        assertEquals(HttpStatus.FOUND, response.getStatusCode());
-        assertNotNull(response.getHeaders().getLocation());
-        assertEquals("/listEmployees", response.getHeaders().getLocation().getPath());
-        assertEquals(response.getHeaders().getLocation().getQuery(), "departmentId=" + TEST_DEPARTMENT_ID_PARAM);
-
-        // GIVEN
-        final String requestUrlRedirect = String.format("http://localhost:%s/listEmployees?departmentId=%s", port,
-                TEST_DEPARTMENT_ID_PARAM);
-        // WHEN
-        final ResponseEntity<String> responseRedirect = restTemplate.getForEntity(requestUrlRedirect, String.class);
-        // THEN
-        assertEquals(HttpStatus.OK, responseRedirect.getStatusCode());
-        final String responseBody = responseRedirect.getBody();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        final String responseBody = response.getBody();
         assertThat(responseBody).contains(accessor.getMessage("employees"))
                 .contains(EXPECTED_DEPARTMENT_NAME)
-                // deleted employee is not found in the list
                 .doesNotContain(EXPECTED_EMPLOYEE_FIRST_NAME)
                 .doesNotContain(EXPECTED_EMPLOYEE_LAST_NAME)
                 .contains(accessor.getMessage("addEmployee"));
@@ -293,34 +229,55 @@ class EmployeeClientSideTests extends ClientSideTestsBase {
     void shouldCancelDeletingEmployee() {
         // GIVEN
         final String requestUrl = String.format("http://localhost:%s/finishEmployeeDeleting", port);
-        final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-        paramMap.add("cancel", "");
-        paramMap.add("id", TEST_EMPLOYEE_ID_PARAM);
-        paramMap.add("departmentId", TEST_DEPARTMENT_ID_PARAM);
-        final HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(paramMap, new HttpHeaders());
+        final HttpEntity<MultiValueMap<String, String>> request = prepareDeletingRequest("cancel");
         // WHEN
         final ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, request, String.class);
         // THEN
-        assertEquals(HttpStatus.FOUND, response.getStatusCode());
-        assertNotNull(response.getHeaders().getLocation());
-        assertEquals("/listEmployees", response.getHeaders().getLocation().getPath());
-        assertEquals("departmentId=" + TEST_DEPARTMENT_ID_PARAM, response.getHeaders().getLocation().getQuery());
-
-        // GIVEN
-        final String requestUrlRedirect = String.format("http://localhost:%s/listEmployees?departmentId=%s", port,
-                TEST_DEPARTMENT_ID_PARAM);
-        // WHEN
-        final ResponseEntity<String> responseRedirect = restTemplate.getForEntity(requestUrlRedirect, String.class);
-        // THEN
-        assertEquals(HttpStatus.OK, responseRedirect.getStatusCode());
-        final String responseBody = responseRedirect.getBody();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        final String responseBody = response.getBody();
         assertThat(responseBody).contains(accessor.getMessage("employees"))
                 .contains(EXPECTED_DEPARTMENT_NAME)
-                // there is not deleted employee in the list
                 .contains(EXPECTED_EMPLOYEE_FIRST_NAME)
                 .contains(EXPECTED_EMPLOYEE_LAST_NAME)
                 .contains(CompanyService.getTitleList().getFirst().getName())
                 .contains(accessor.getMessage("addEmployee"));
         logger.info("shouldCancelDeletingEmployee():");
     }
+
+    /**
+     * Prepares a request for saving.
+     *
+     * @param action the action
+     * @return the request
+     */
+    private static HttpEntity<MultiValueMap<String, String>> prepareSavingRequest(String action) {
+
+        final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
+        paramMap.add(action, "");
+        paramMap.add("id", TEST_EMPLOYEE_ID_PARAM);
+        paramMap.add("firstName", CHANGED_EMPLOYEE_FIRST_NAME);
+        paramMap.add("lastName", CHANGED_EMPLOYEE_LAST_NAME);
+        paramMap.add("title", Title.ANALYST.name().toUpperCase());
+        paramMap.add("departmentId", TEST_DEPARTMENT_ID_PARAM);
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(HttpHeaders.ACCEPT_LANGUAGE, Locale.US.toLanguageTag());
+        return new HttpEntity<>(paramMap, httpHeaders);
+    }
+
+    /**
+     * Prepares a request for deleting.
+     *
+     * @param action the action
+     * @return the request
+     */
+    private static HttpEntity<MultiValueMap<String, String>> prepareDeletingRequest(String action) {
+
+        final MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
+        paramMap.add(action, "");
+        paramMap.add("id", TEST_EMPLOYEE_ID_PARAM);
+        paramMap.add("departmentId", TEST_DEPARTMENT_ID_PARAM);
+        return new HttpEntity<>(paramMap, new HttpHeaders());
+    }
+
+
 }

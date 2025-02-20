@@ -4,11 +4,9 @@ import kp.company.controller.CompanyController;
 import kp.company.mvc.base.MVCTestsBase;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -17,12 +15,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.lang.invoke.MethodHandles;
 
 /**
- * Application tests for company with server-side support.
- * <p>
- * The server is <b>not started</b>.
- * </p>
+ * Application tests for a company with server-side support.
  */
-@ExtendWith(SpringExtension.class)
 @WebMvcTest(CompanyController.class)
 class CompanyMVCTests extends MVCTestsBase {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

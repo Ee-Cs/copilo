@@ -1,24 +1,22 @@
 package kp.company.mvc.base;
 
-import kp.company.TestsBase;
+import kp.company.base.TestsBase;
+import kp.company.controller.DepartmentController;
+import kp.company.controller.EmployeeController;
+import kp.company.service.CompanyService;
+import kp.company.service.CompanyServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
  * The base class for tests with server-side support.
- * <p>
- * The server is <b>not started</b>.
- * </p>
- * <p>
- * These tests use the 'Spring MVC Test Framework'.
- * </p>
- * <p>
- * This framework does not use a running Servlet container.
- * </p>
  */
-public abstract class MVCTestsBase extends TestsBase {
+public abstract class MVCTestsBase  extends TestsBase {
     /**
-     * The {@link MockMvc}.
+     * {@link MockMvc}.
      */
     @Autowired
     protected MockMvc mockMvc;

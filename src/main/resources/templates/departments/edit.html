@@ -11,11 +11,9 @@
 </head>
 <body>
 	<div class="edit">
-		<form th:action="@{/finishDepartmentEditing}"
-			th:object="${department}" method="post">
+		<form th:action="@{/finishDepartmentEditing}" th:object="${department}" method="post">
 			<fieldset>
-				<legend>[[*{id} == 0 ? #{addDepartment} :
-					#{editDepartment}]]</legend>
+				<legend>[[*{id} == 0 ? #{addDepartment} : #{editDepartment}]]</legend>
 				<input type="hidden" th:field="*{id}"/>
 				<div class="row">
 					<div class="left-col">

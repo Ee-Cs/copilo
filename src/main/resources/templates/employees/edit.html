@@ -11,8 +11,7 @@
 </head>
 <body>
 	<div class="edit">
-		<form th:action="@{/finishEmployeeEditing}" th:object="${employee}"
-			method="post">
+		<form th:action="@{/finishEmployeeEditing}" th:object="${employee}" method="post">
 			<fieldset>
 				<legend>[[*{id} == 0 ? #{addEmployee} : #{editEmployee}]]</legend>
 				<input type="hidden" th:field="*{id}"/>

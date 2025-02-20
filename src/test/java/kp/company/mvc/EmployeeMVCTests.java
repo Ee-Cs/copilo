@@ -6,11 +6,10 @@ import kp.company.mvc.base.MVCTestsBase;
 import kp.company.service.CompanyService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.bean.override.convention.TestBean;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -21,15 +20,14 @@ import java.lang.invoke.MethodHandles;
 import static kp.TestConstants.*;
 
 /**
- * Application tests for employee with server-side support.
- * <p>
- * The server is <b>not started</b>.
- * </p>
+ * Application tests for an employee with server-side support.
  */
-@ExtendWith(SpringExtension.class)
 @WebMvcTest(EmployeeController.class)
 class EmployeeMVCTests extends MVCTestsBase {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    @TestBean(methodName = "createEmployeeController")
+    private EmployeeController employeeController;
 
     /**
      * Should list employees.
@@ -48,9 +46,8 @@ class EmployeeMVCTests extends MVCTestsBase {
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
         resultActions.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("employees"))));
-        resultActions
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_DEPARTMENT_NAME)));
-        // there is given employee in the list
+        resultActions.andExpect(
+                MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_DEPARTMENT_NAME)));
         resultActions.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_EMPLOYEE_FIRST_NAME)));
         resultActions.andExpect(
@@ -157,9 +154,13 @@ class EmployeeMVCTests extends MVCTestsBase {
         // WHEN
         final ResultActions resultActions = mockMvc.perform(requestBuilder);
         // THEN
+        /*-
+         * The HTTP response status code 302 'Temporary Redirect' is a common way of performing URL redirection.
+         */
         resultActions.andExpect(MockMvcResultMatchers.status().isFound());
         resultActions.andExpect(MockMvcResultMatchers
                 .redirectedUrl(String.format("/listEmployees?departmentId=%s", TEST_DEPARTMENT_ID_PARAM)));
+
         // GIVEN
         final MockHttpServletRequestBuilder requestBuilderRedirect = MockMvcRequestBuilders
                 .get("/listEmployees")
@@ -172,13 +173,12 @@ class EmployeeMVCTests extends MVCTestsBase {
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("employees"))));
         resultActionsRedirect
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_DEPARTMENT_NAME)));
-        // there is given employee in the list
         resultActionsRedirect.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(CHANGED_EMPLOYEE_FIRST_NAME)));
         resultActionsRedirect
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(CHANGED_EMPLOYEE_LAST_NAME)));
-        resultActionsRedirect.andExpect(MockMvcResultMatchers.content()
-                .string(Matchers.containsString(CompanyService.getTitleList().getFirst().getName())));
+        resultActionsRedirect.andExpect(
+                MockMvcResultMatchers.content().string(Matchers.containsString(CompanyService.getTitleList().getFirst().getName())));
         resultActionsRedirect.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("addEmployee"))));
         logger.info("shouldSaveEmployee():");
@@ -205,7 +205,6 @@ class EmployeeMVCTests extends MVCTestsBase {
         resultActions.andExpect(MockMvcResultMatchers.model().attributeHasErrors("employee"));
         resultActions.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("editEmployee"))));
-        // validation error
         resultActions.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("must not be blank")));
         resultActions.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("save"))));
@@ -247,11 +246,10 @@ class EmployeeMVCTests extends MVCTestsBase {
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("employees"))));
         resultActionsRedirect
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_DEPARTMENT_NAME)));
-        // canceled employee is not found in the list
-        resultActionsRedirect.andExpect(MockMvcResultMatchers.content()
-                .string(Matchers.not(Matchers.containsString(CHANGED_EMPLOYEE_FIRST_NAME))));
-        resultActionsRedirect.andExpect(MockMvcResultMatchers.content()
-                .string(Matchers.not(Matchers.containsString(CHANGED_EMPLOYEE_LAST_NAME))));
+        resultActionsRedirect.andExpect(MockMvcResultMatchers.content().string(Matchers.not(
+                Matchers.containsString(CHANGED_EMPLOYEE_FIRST_NAME))));
+        resultActionsRedirect.andExpect(MockMvcResultMatchers.content().string(Matchers.not(
+                Matchers.containsString(CHANGED_EMPLOYEE_LAST_NAME))));
         resultActionsRedirect.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_EMPLOYEE_FIRST_NAME)));
         resultActionsRedirect.andExpect(
@@ -280,7 +278,8 @@ class EmployeeMVCTests extends MVCTestsBase {
         // THEN
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
         resultActions.andExpect(
-                MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("deleteEmployee"))));
+                MockMvcResultMatchers.content().string(
+                        Matchers.containsString(accessor.getMessage("deleteEmployee"))));
         resultActions.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_EMPLOYEE_FIRST_NAME)));
         resultActions.andExpect(
@@ -288,7 +287,8 @@ class EmployeeMVCTests extends MVCTestsBase {
         resultActions.andExpect(MockMvcResultMatchers.content()
                 .string(Matchers.containsString(CompanyService.getTitleList().getFirst().getName())));
         resultActions.andExpect(
-                MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("delete"))));
+                MockMvcResultMatchers.content().string(
+                        Matchers.containsString(accessor.getMessage("delete"))));
         logger.info("shouldStartDeletingEmployee():");
     }
 
@@ -321,10 +321,10 @@ class EmployeeMVCTests extends MVCTestsBase {
         // THEN
         resultActionsRedirect.andExpect(MockMvcResultMatchers.status().isOk());
         resultActionsRedirect.andExpect(
-                MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("employees"))));
+                MockMvcResultMatchers.content().string(
+                        Matchers.containsString(accessor.getMessage("employees"))));
         resultActionsRedirect
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_DEPARTMENT_NAME)));
-        // deleted employee is not found in the list
         resultActionsRedirect.andExpect(MockMvcResultMatchers.content()
                 .string(Matchers.not(Matchers.containsString(EXPECTED_EMPLOYEE_FIRST_NAME))));
         resultActionsRedirect.andExpect(MockMvcResultMatchers.content()
@@ -366,7 +366,6 @@ class EmployeeMVCTests extends MVCTestsBase {
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("employees"))));
         resultActionsRedirect
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_DEPARTMENT_NAME)));
-        // there is not deleted employee in the list
         resultActionsRedirect.andExpect(
                 MockMvcResultMatchers.content().string(Matchers.containsString(EXPECTED_EMPLOYEE_FIRST_NAME)));
         resultActionsRedirect.andExpect(
@@ -377,4 +376,5 @@ class EmployeeMVCTests extends MVCTestsBase {
                 MockMvcResultMatchers.content().string(Matchers.containsString(accessor.getMessage("addEmployee"))));
         logger.info("():");
     }
+
 }

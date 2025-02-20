@@ -24,13 +24,6 @@ public class Employee {
 	private long departmentId;
 
 	/**
-	 * The constructor.
-	 */
-	public Employee() {
-		super();
-	}
-
-	/**
 	 * Gets the id.
 	 * 
 	 * @return the id

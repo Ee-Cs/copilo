@@ -1,16 +1,16 @@
-package kp.company;
+package kp.company.base;
 
+import kp.company.controller.DepartmentController;
+import kp.company.controller.EmployeeController;
+import kp.company.service.CompanyService;
 import kp.company.service.CompanyServiceImpl;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 /**
- * The base class for tests.
+ * The base class for all tests.
  */
 public abstract class TestsBase {
     /**
@@ -18,31 +18,37 @@ public abstract class TestsBase {
      */
     protected MessageSourceAccessor accessor;
 
-    @MockitoSpyBean
-    private CompanyServiceImpl companyService;
-
     @Autowired
     private MessageSource messageSource;
 
-    private AutoCloseable closeable;
+    private static final CompanyService companyService = new CompanyServiceImpl();
 
     /**
      * Initializes the {@link CompanyServiceImpl} data before every test.
      */
     @BeforeEach
     protected void initialize() {
-        closeable = MockitoAnnotations.openMocks(this);
+
         companyService.reloadData();
         accessor = new MessageSourceAccessor(messageSource);
     }
 
     /**
-     * Releases the mocks after every test.
+     * Creates a {@link DepartmentController}.
      *
-     * @throws Exception the {@link Exception}
+     * @return the  {@link DepartmentController}.
      */
-    @AfterEach
-    protected void finish() throws Exception {
-        closeable.close();
+    protected static DepartmentController createDepartmentController() {
+        return new DepartmentController(companyService);
     }
+
+    /**
+     * Creates a {@link EmployeeController}.
+     *
+     * @return the  {@link EmployeeController}.
+     */
+    protected static EmployeeController createEmployeeController() {
+        return new EmployeeController(companyService);
+    }
+
 }

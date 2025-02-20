@@ -3,10 +3,7 @@ package kp.company.service;
 import static kp.Constants.DEP_NOT_FOUND_EXC_FUN;
 import static kp.Constants.EMP_NOT_FOUND_EXC_FUN;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Service;
@@ -87,8 +84,11 @@ public class CompanyServiceImpl implements CompanyService {
 
 		if (department.getId() == 0) {
 			department.setId(departmentIdSequence.getAndIncrement());
+			departmentMap.put(department.getId(), department);
+		} else if(Optional.ofNullable(department.getName()).map(String::trim).isPresent()) {
+			Optional.of(department.getId()).map(departmentMap::get)
+					.ifPresent(dep -> dep.setName(department.getName()));
 		}
-		departmentMap.put(department.getId(), department);
 	}
 
 	/**

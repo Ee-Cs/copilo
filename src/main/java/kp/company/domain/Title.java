@@ -1,27 +1,27 @@
 package kp.company.domain;
 
 /**
- * The job title of the employee.
+ * Job title of the employee.
  * 
  */
 public enum Title {
 	/**
-	 * The analyst
+	 * Analyst
 	 */
 	ANALYST("Analyst"),
 	/**
-	 * The developer
+	 * Developer
 	 */
 	DEVELOPER("Developer"),
 	/**
-	 * The manager
+	 * Manager
 	 */
 	MANAGER("Manager");
 
 	private final String name;
 
 	/**
-	 * The constructor.
+	 * Parameterized constructor.
 	 * 
 	 * @param name the name
 	 */
