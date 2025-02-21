@@ -4,6 +4,7 @@ import kp.Constants;
 import kp.SampleDataset;
 import kp.company.assembler.DepartmentAssembler;
 import kp.company.domain.Department;
+import kp.company.domain.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.CollectionModel;
@@ -17,7 +18,7 @@ import java.net.URI;
 import java.util.Optional;
 
 /**
- * The HATEOAS RESTful web service controller for the {@link Department}.
+ * The HATEOAS RESTful web service controller for handling {@link Department} entities.
  */
 @RestController
 @RequestMapping(Constants.COMPANY_PATH)
@@ -36,11 +37,10 @@ public class DepartmentController {
     }
 
     /**
-     * Creates a new {@link Department}
+     * Creates a new {@link Department}.
      *
      * @param department the {@link Department}
-     * @return the {@link ResponseEntity} with the {@link EntityModel} for the
-     * {@link Department}
+     * @return the {@link ResponseEntity} with the {@link EntityModel} for the {@link Department}
      */
     @PostMapping(Constants.DEPARTMENTS_PATH)
     public ResponseEntity<EntityModel<Department>> createDepartment(@RequestBody Department department) {
@@ -55,11 +55,10 @@ public class DepartmentController {
     }
 
     /**
-     * Reads the {@link Department} with given id.
+     * Retrieves the {@link Department} with the specified id.
      *
      * @param id the {@link Department} id
-     * @return the {@link ResponseEntity} with the {@link EntityModel} for the
-     * {@link Department}
+     * @return the {@link ResponseEntity} with the {@link EntityModel} for the {@link Department}
      */
     @GetMapping(Constants.DEPARTMENT_ID_PATH)
     public ResponseEntity<EntityModel<Department>> findDepartmentById(@PathVariable("id") Long id) {
@@ -76,7 +75,7 @@ public class DepartmentController {
     }
 
     /**
-     * Reads all {@link Department}s.
+     * Retrieves all {@link Department}s.
      *
      * @return the {@link ResponseEntity} with the {@link CollectionModel}
      */
@@ -91,12 +90,11 @@ public class DepartmentController {
     }
 
     /**
-     * Updates the {@link Department} with given id.
+     * Updates the {@link Department} with the specified id.
      *
      * @param department the {@link Department}
      * @param id         the {@link Department} id
-     * @return the {@link ResponseEntity} with the {@link EntityModel} for the
-     * {@link Department}
+     * @return the {@link ResponseEntity} with the {@link EntityModel} for the {@link Department}
      */
     @PatchMapping(Constants.DEPARTMENT_ID_PATH)
     public ResponseEntity<EntityModel<Department>> updateDepartment(@RequestBody Department department,
@@ -117,7 +115,7 @@ public class DepartmentController {
     }
 
     /**
-     * Deletes the {@link Department} with given id.
+     * Deletes the {@link Department} with the specified id.
      *
      * @param id the {@link Department} id
      * @return the {@link ResponseEntity}
@@ -136,11 +134,10 @@ public class DepartmentController {
     }
 
     /**
-     * Saves the {@link Department}
+     * Saves the {@link Department}.
      *
      * @param department the {@link Department}
-     * @return the {@link ResponseEntity} with the {@link EntityModel} for the
-     * {@link Department}
+     * @return the {@link ResponseEntity} with the {@link EntityModel} for the {@link Department}
      */
     private ResponseEntity<EntityModel<Department>> saveDepartment(Department department) {
         try {

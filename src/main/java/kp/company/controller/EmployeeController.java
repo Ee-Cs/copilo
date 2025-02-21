@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.Optional;
 
 /**
- * The HATEOAS RESTful web service controller for the {@link Employee}.
+ * The HATEOAS RESTful web service controller for handling {@link Employee} entities.
  */
 @RestController
 @RequestMapping(Constants.COMPANY_PATH)
@@ -41,8 +41,7 @@ public class EmployeeController {
      * Creates a new {@link Employee}.
      *
      * @param employee the {@link Employee}
-     * @return the {@link ResponseEntity} with the {@link EntityModel} for the
-     * {@link Employee}
+     * @return the {@link ResponseEntity} with the {@link EntityModel} for the {@link Employee}
      */
     @PostMapping(Constants.EMPLOYEES_PATH)
     public ResponseEntity<EntityModel<Employee>> createEmployee(@RequestBody Employee employee) {
@@ -54,7 +53,7 @@ public class EmployeeController {
         final Optional<Department> departmentOpt = Optional.of(employee).map(Employee::getDepartment)
                 .map(Department::getId).flatMap(SampleDataset::findDepartmentById);
         if (departmentOpt.isEmpty()) {
-            logger.error("createEmployee(): not found - employee has not existing department");
+            logger.error("createEmployee(): not found - employee has non-existing department");
             return ResponseEntity.notFound().build();
         }
         final ResponseEntity<EntityModel<Employee>> responseEntity = saveEmployee(employee);
@@ -63,11 +62,10 @@ public class EmployeeController {
     }
 
     /**
-     * Reads the {@link Employee} with given id.
+     * Retrieves the {@link Employee} with the specified id.
      *
      * @param id the {@link Employee} id
-     * @return the {@link ResponseEntity} with the {@link EntityModel} for the
-     * {@link Employee}
+     * @return the {@link ResponseEntity} with the {@link EntityModel} for the {@link Employee}
      */
     @GetMapping(Constants.EMPLOYEE_ID_PATH)
     public ResponseEntity<EntityModel<Employee>> findEmployeeById(@PathVariable("id") Long id) {
@@ -83,7 +81,7 @@ public class EmployeeController {
     }
 
     /**
-     * Reads all {@link Employee}s.
+     * Retrieves all {@link Employee}s.
      *
      * @return the {@link ResponseEntity} with the {@link PagedModel}
      */
@@ -97,7 +95,7 @@ public class EmployeeController {
     }
 
     /**
-     * Updates the {@link Employee} with given id.
+     * Updates the {@link Employee} with the specified id.
      *
      * @param employee the {@link Employee}
      * @param id       the {@link Employee} id
@@ -115,7 +113,7 @@ public class EmployeeController {
         final boolean departmentPresent = Optional.of(employee).map(Employee::getDepartment).map(Department::getId)
                 .map(SampleDataset::findDepartmentById).isPresent();
         if (!departmentPresent) {
-            logger.error("updateEmployee(): not found - employee has not existing department");
+            logger.error("updateEmployee(): not found - employee has non-existing department");
             return ResponseEntity.notFound().build();
         }
         final ResponseEntity<EntityModel<Employee>> responseEntity = SampleDataset.findEmployeeById(id)
@@ -129,7 +127,7 @@ public class EmployeeController {
     }
 
     /**
-     * Deletes the {@link Employee} with given id.
+     * Deletes the {@link Employee} with the specified id.
      *
      * @param id the {@link Employee} id
      * @return the {@link ResponseEntity}
@@ -148,11 +146,10 @@ public class EmployeeController {
     }
 
     /**
-     * Saves the {@link Employee}
+     * Saves the {@link Employee}.
      *
      * @param employee the {@link Employee}
-     * @return the {@link ResponseEntity} with the {@link EntityModel} for the
-     * {@link Employee}
+     * @return the {@link ResponseEntity} with the {@link EntityModel} for the {@link Employee}
      */
     private ResponseEntity<EntityModel<Employee>> saveEmployee(Employee employee) {
         try {
