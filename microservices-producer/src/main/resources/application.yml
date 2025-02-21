@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: producer-service
+
+server.port: 8081
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 5   # DEV ONLY: to speed up registration
+
+# Enable actuator access without security checks
+management.endpoints.web.exposure.include: '*'
