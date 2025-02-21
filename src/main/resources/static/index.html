@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Study09</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" href="static/favicon.ico" />
+<style>
+body {
+  background-color: wheat;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+caption {
+  padding: 5px;
+}
+table td {
+  padding: 3px;
+  border: 1px solid black;
+}
+.row-green:hover {
+  background-color: palegreen;
+}
+.col-one-third {
+  width: 33%
+}
+.col-green {
+  width: 33%
+}
+.col-green:hover {
+  background-color: palegreen;
+}
+.col-two-thirds {
+  width: 67%
+}
+</style>
+</head>
+<body>
+<h1>Study09</h1>
+<table>
+<tr class="row-green"><td class="col-one-third">
+	Load sample dataset
+</td><td class="col-two-thirds">
+	<a href="http://localhost:8080/company/loadSampleDataset">/company/loadSampleDataset</a>
+</td></tr>
+</table>
+<br>
+1.1. The <b>DepartmentController</b> links
+<table>
+<tr class="row-green"><td class="col-one-third">
+	Get <b>departments</b>
+</td><td class="col-two-thirds">
+	<a href="http://localhost:8080/company/departments">/company/departments</a>
+</td></tr>
+ <tr class="row-green"><td class="col-one-third">
+	Get <b>department</b> by id
+</td><td class="col-two-thirds">
+	<a href="http://localhost:8080/company/departments/1">/company/departments/1</a>
+</td></tr>
+</table>
+<br>
+1.2. The <b>EmployeeController</b> links
+<table>
+<tr class="row-green"><td class="col-one-third">
+	Get <b>employees</b>
+</td><td class="col-two-thirds">
+	<a href="http://localhost:8080/company/employees">/company/employees</a>
+</td></tr>
+<tr class="row-green"><td class="col-one-third">
+	Get <b>employee</b> by id
+</td><td class="col-two-thirds">
+	<a href="http://localhost:8080/company/employees/101">/company/employees/101</a>
+</td></tr>
+</table>
+<br>
+2. Consuming REST with <b>JavaScript</b>
+<table>
+<tr class="row-green"><td class="col-one-third">
+	Get <b>department</b> by id
+</td><td class="col-two-thirds">
+	<a href="ConsumingRestUsingAngularJS/index.html">Using <i>'AngularJS'</i> JavaScript Framework</a>
+</td></tr>
+<tr class="row-green"><td class="col-one-third">
+	Get <b>department</b> by id
+</td><td class="col-two-thirds">
+	<a href="ConsumingRestUsingJQuery/index.html">Using <i>'jQuery'</i> JavaScript Library</a>
+</td></tr>
+</table>
+
+<hr/>
+
+<br>
+3. The <b>Spring Boot Actuator</b> links
+<table>
+<tr><td class="col-green">
+	<a href="/actuator">List of Actuator Endpoints</a><br/>
+</td><td class="col-green">
+	<a href="/actuator/health">Application Health</a><br/>
+</td><td class="col-green">
+	<a href="/actuator/mappings">URL Mappings</a><br/>
+</td></tr>
+<tr><td class="col-green">
+	<a href="/actuator/metrics">Metrics</a><br/>
+</td><td class="col-green">
+	<a href="/actuator/metrics/http.server.requests">Metrics 'http.server.requests'</a><br/>
+</td><td class="col-green">
+	<a href="/actuator/beans">Beans</a><br/>
+</td></tr>
+<tr><td class="col-green">
+	<a href="/actuator/configprops">Configuration Properties</a><br/>
+</td><td class="col-green">
+	<a href="/actuator/env">Environment</a><br/>
+</td><td class="col-green">
+	&nbsp;
+</td></tr>
+</table>
+</body>
+</html>

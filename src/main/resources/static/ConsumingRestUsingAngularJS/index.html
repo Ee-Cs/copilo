@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" ng-app="department-app">
+	<head>
+		<title>Department (using 'AngularJS')</title>
+		<meta charset="UTF-8"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    	<script src="script.js"></script>
+		<style>
+			body {
+              background-color: wheat;
+            }
+		</style>
+	</head>
+	<body>
+		<h2>Consuming REST - Using 'AngularJS' JavaScript Framework</h2>
+		<div ng-controller="Department">
+			<p>The department id is '{{department.id}}'</p>
+			<p>The department name is '{{department.name}}'</p>
+		</div>
+	</body>
+</html>
