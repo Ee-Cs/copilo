@@ -1,0 +1,26 @@
+{
+	"add-field" : [
+		{
+			"name" : "keyword",
+			"type" : "text_general"
+		} , {
+			"name" : "project",
+			"type" : "string"
+		} , {
+			"name" : "category",
+			"type" : "string"
+		} , {
+			"name" : "path",
+			"type" : "string"
+		} , {
+			"name" : "file-name",
+			"type" : "string"
+		} , {
+			"name" : "file-extension",
+			"type" : "string"
+		} , {
+			"name" : "line-number",
+			"type" : "pint"
+		} 
+	]
+}
