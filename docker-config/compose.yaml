@@ -1,0 +1,5 @@
+services:
+  study17:
+    container_name: study17
+    image: eeengcs/study17:1.0.0-SNAPSHOT
+    command: ['java', '-jar', 'application.jar']
