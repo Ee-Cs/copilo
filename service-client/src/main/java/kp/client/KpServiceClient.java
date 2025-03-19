@@ -35,12 +35,12 @@ public class KpServiceClient {
 
         Printer.print("All provided services:");
         ServiceLoader.load(KpService.class).stream().map(Provider::get)
-                .forEach(arg -> Printer.printf("Service result[%s]%n", arg.launch()));
+                .forEach(kpService -> Printer.printf("Service result[%s]%n", kpService.launch()));
         Printer.printHor();
 
         Printer.print("Only simple service:");
         ServiceLoader.load(KpService.class).stream().map(Provider::get).filter(KpService::isSimple)
-                .forEach(arg -> Printer.printf("Service result[%s]%n", arg.launch()));
+                .forEach(kpService -> Printer.printf("Service result[%s]%n", kpService.launch()));
         Printer.printHor();
     }
 }

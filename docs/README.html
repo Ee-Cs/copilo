@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<HTML lang="en">
-<META charset="UTF-8">
-<BODY>
+<html lang="en">
+<meta charset="UTF-8">
+<body>
 <a href="https://github.com/k1729p/Study20/tree/main/docs"><img alt="" src="images/ColorScheme.png" height="25" width="800"/></a>
-<H2 id="contents">Study20 README Contents</H2>
-<H3 id="top">Research <a href="https://openjdk.org/projects/jigsaw/">Java Platform Module System</a> (JPMS)</H3>
+<h2 id="contents">Study20 README Contents</h2>
+<h3 id="top">Research <a href="https://openjdk.org/projects/jigsaw/">Java Platform Module System</a> (JPMS)</h3>
 
-<P><img alt="" src="images/ModulesDiagram.png" height="255" width="475"/><br>
+<p><img alt="" src="images/ModulesDiagram.png" height="255" width="475"/><br>
 <img alt="" src="images/blackArrowUp.png">
-<I>The diagram of the JPMS modules</I>
-</P>
+<i>The diagram of the JPMS modules</i>
+</p>
 
 <table style="border:solid">
 <caption>Java module declarations</caption>
@@ -44,7 +44,7 @@ Java source code. Packages:<br>
 <a href="https://github.com/k1729p/Study20/tree/master/service-provider/src/main/java/kp/provider/">kp.provider</a><br>
 <img alt="" src="images/aquaSquare.png"> module 'service-client': 
 <a href="https://github.com/k1729p/Study20/tree/master/service-client/src/main/java/kp/client/">kp.client</a><br>
-<img alt="" src="images/aquaHR-500.png"></P>
+<img alt="" src="images/aquaHR-500.png"></p>
 
 <p>
 <img alt="" src="images/yellowHR-500.png"><br>
@@ -62,14 +62,15 @@ Java API Documentation</a><br>
 
 <hr>
 
-<P>Action:<br>
+<p>Action:<br>
 <img alt="" src="images/orangeHR-500.png"><br>
 <img alt="" src="images/orangeSquare.png"> 1. Build and run the 
 <a href="https://github.com/k1729p/Study20/blob/main/service-client/src/main/java/kp/client/KpServiceClient.java">
 'KpServiceClient'</a> with the batch file 
 <a href="https://github.com/k1729p/Study20/blob/main/0_batch/01%20MVN%20clean%20install%20%2B%20Run%20Application.bat">
 '01 MVN clean install + Run Application.bat'</a>.<br>
-<img alt="" src="images/orangeHR-500.png"></P>
+<img alt="" src="images/orangeHR-500.png">
+</p>
 
 <p><img alt="" src="images/greenCircle.png">
 1. Alternative action: build and run the 
@@ -78,16 +79,16 @@ Java API Documentation</a><br>
 <a href="https://github.com/k1729p/Study20/blob/main/0_batch/02%20Create%20Image%20And%20Run.bat">
 '02 Create Image And Run.bat'</a>.<br>
 This process uses the local Maven repository.<br>
-It creates the run-time image with the Java linker <B>jlink</B> and uses the generated runtime for execution.
+It creates the run-time image with the Java linker <b>jlink</b> and uses the generated runtime for execution.
 <p>
 
 <p><img alt="" src="images/greenCircle.png">
 2. The service registering and loading.
 </p>
-<P><img alt="" src="images/ServiceLoaderDiagram.png" height="190" width="445"/><br>
+<p><img alt="" src="images/ServiceLoaderDiagram.png" height="190" width="445"/><br>
 <img alt="" src="images/blackArrowUp.png">
-<I>The diagram of the service registering and loading</I>
-</P>
+<i>The diagram of the service registering and loading</i>
+</p>
 
 <p>
 The two providers of the 
@@ -97,37 +98,37 @@ The two providers of the
 <ul>
 <li><a href="https://github.com/k1729p/Study20/blob/main/service-provider/src/main/java/kp/provider/KpServiceProviderSimple.java">
 'kp.provider.KpServiceProviderSimple'</a>,<br>
-the providing method: <a href="https://github.com/k1729p/Study20/blob/main/service-provider/src/main/java/kp/provider/KpServiceProviderSimple.java#L22">
+the providing method: <a href="https://github.com/k1729p/Study20/blob/main/service-provider/src/main/java/kp/provider/KpServiceProviderSimple.java#L21">
 'kp.provider.KpServiceProviderSimple::provider'</a>
 </li>
 <li><a href="https://github.com/k1729p/Study20/blob/main/service-provider/src/main/java/kp/provider/KpServiceProviderComplex.java">
 'kp.provider.KpServiceProviderComplex'</a>,<br>
-the providing method: <a href="https://github.com/k1729p/Study20/blob/main/service-provider/src/main/java/kp/provider/KpServiceProviderComplex.java#L22">
+the providing method: <a href="https://github.com/k1729p/Study20/blob/main/service-provider/src/main/java/kp/provider/KpServiceProviderComplex.java#L21">
 'kp.provider.KpServiceProviderComplex::provider'</a>
 </li>
 </ul>
 
 <p><img alt="" src="images/greenCircle.png">
 3. The main client method: 
-<a href="https://github.com/k1729p/Study20/blob/main/service-client/src/main/java/kp/client/KpServiceClient.java#L29">
+<a href="https://github.com/k1729p/Study20/blob/main/service-client/src/main/java/kp/client/KpServiceClient.java#L28">
 'kp.client.KpServiceClient::main'</a>.<br>
 With the method 'java.util.ServiceLoader::load' the service providers are located and loaded.<br>
 The service method: 
-<a href="https://github.com/k1729p/Study20/blob/main/service/src/main/java/kp/service/KpService.java#L23">
+<a href="https://github.com/k1729p/Study20/blob/main/service/src/main/java/kp/service/KpService.java#L22">
 'kp.service.KpService::launch'</a>.
-</P>
+</p>
 
-<P><img alt="" src="images/MermaidSequenceDiagram.png" height="1490" width="815"/><br>
+<p><img alt="" src="images/MermaidSequenceDiagram.png" height="1490" width="815"/><br>
 <img alt="" src="images/blackArrowUp.png">
-<I>The sequence diagram</I>
-</P>
+<i>The sequence diagram</i>
+</p>
 
-<P><img alt="" src="images/ConsoleLogApplicationRun.png" height="245" width="1020"/><br>
+<p><img alt="" src="images/ConsoleLogApplicationRun.png" height="245" width="1020"/><br>
 <img alt="" src="images/blackArrowUp.png">
-<I>The screenshot of the console log.</I>
-</P>
+<i>The screenshot of the console log.</i>
+</p>
 
 <a href="#top">Back to the top of the page</a>
 <hr>
-</BODY>
-</HTML>
+</body>
+</html>
