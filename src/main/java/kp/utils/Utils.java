@@ -21,6 +21,8 @@ import static kp.Constants.*;
  */
 public class Utils {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getName());
+    private static String serviceUrl = "pulsar://pulsar:6650";
+    private static boolean runLocally = false;
     private static Random random = null;
 
     static {
@@ -30,9 +32,6 @@ public class Utils {
             System.exit(1);
         }
     }
-
-    private static String serviceUrl = "pulsar://pulsar:6650";
-    private static boolean runLocally = false;
 
     /**
      * Private constructor to prevent instantiation.
@@ -202,8 +201,8 @@ public class Utils {
 
         return IntStream.rangeClosed(1, 2).mapToObj(i -> {
             final long id = 10 * informationId + i;
-            final BigDecimal money = BigDecimal.valueOf(random.nextLong()).add(BigDecimal.valueOf(random.nextDouble()));
-            return new Department(id, "name-" + id, money, createEmployees(id));
+            final BigDecimal budget = BigDecimal.valueOf(random.nextLong()).add(BigDecimal.valueOf(random.nextDouble()));
+            return new Department(id, "name-" + id, budget, createEmployees(id));
         }).toList();
     }
 

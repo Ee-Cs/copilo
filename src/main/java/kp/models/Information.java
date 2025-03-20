@@ -3,7 +3,10 @@ package kp.models;
 import java.util.List;
 
 /**
- * The information. This is the payload for the Pulsar messages.
+ * Represents the information.
+ * <p>
+ * This is the payload for the Pulsar messages.
+ * </p>
  */
 public class Information {
     private long id;
@@ -26,7 +29,8 @@ public class Information {
      * @param approvalStatus the {@link ApprovalStatus}
      * @param departments    the list of the {@link Department}s
      */
-    public Information(long id, String label, ApprovalStatus approvalStatus, List<Department> departments) {
+    public Information(long id, String label, ApprovalStatus approvalStatus,
+                       List<Department> departments) {
         this.id = id;
         this.label = label;
         this.approvalStatus = approvalStatus;
@@ -72,7 +76,7 @@ public class Information {
     /**
      * Gets the approval status.
      *
-     * @return the approvalStatus
+     * @return the approval status
      */
     public ApprovalStatus getApprovalStatus() {
         return approvalStatus;
@@ -81,14 +85,14 @@ public class Information {
     /**
      * Sets the approval status.
      *
-     * @param approvalStatus the approvalStatus to set
+     * @param approvalStatus the approval status to set
      */
     public void setApprovalStatus(ApprovalStatus approvalStatus) {
         this.approvalStatus = approvalStatus;
     }
 
     /**
-     * Gets the list of the departments.
+     * Gets the list of departments.
      *
      * @return the departments
      */
@@ -97,7 +101,7 @@ public class Information {
     }
 
     /**
-     * Sets the list of the departments.
+     * Sets the list of departments.
      *
      * @param departments the departments to set
      */

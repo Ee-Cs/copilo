@@ -60,8 +60,8 @@ public class KpInformationChecker {
 		if (!departmentDest.getName().equals(departmentOrig.getName())) {
 			checkRecord.append("Department name").append(System.lineSeparator());
 		}
-		if (departmentDest.getMoney().compareTo(departmentOrig.getMoney()) != 0) {
-			checkRecord.append("Department money").append(System.lineSeparator());
+		if (departmentDest.getBudget().compareTo(departmentOrig.getBudget()) != 0) {
+			checkRecord.append("Department budget").append(System.lineSeparator());
 		}
 		if (!departmentDest.getCreatedAt().equals(departmentOrig.getCreatedAt())) {
 			checkRecord.append("Department created at").append(System.lineSeparator());

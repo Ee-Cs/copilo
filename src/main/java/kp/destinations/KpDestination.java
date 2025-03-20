@@ -38,9 +38,10 @@ public class KpDestination {
      */
     public void process(String consumerTopic) {
 
-        try (final PulsarClient pulsarClient = Utils.createPulsarClient();
-             final Consumer<Information> consumer = Utils.createConsumer(pulsarClient, consumerTopic);
-             final Producer<Information> producer = Utils.createProducer(pulsarClient, TOPIC_SELECT_ORIG)) {
+        try (PulsarClient pulsarClient = Utils.createPulsarClient();
+             Consumer<Information> consumer = Utils.createConsumer(pulsarClient, consumerTopic);
+             Producer<Information> producer = Utils.createProducer(pulsarClient, TOPIC_SELECT_ORIG)) {
+
             while (Utils.sleepMillis()) {
                 receiveAndRespond(consumer, producer);
             }
@@ -50,14 +51,19 @@ public class KpDestination {
     }
 
     /**
-     * Receive at the destination and respond to the origin.
+     * Receives messages at the destination and responds to the origin.
      * <p>
-     * This is the <i>Consume</i>, <i>Process</i>, <i>Produce</i> sequence.
+     * This follows the sequence:
      * </p>
+     * <ol>
+     * <li><i>Consume</i></li>
+     * <li><i>Process</i></li>
+     * <li><i>Produce</i></li>
+     * </ol>
      *
      * @param consumer the {@link Consumer}
      * @param producer the {@link Producer}
-     * @throws PulsarClientException the {@link PulsarClientException}
+     * @throws PulsarClientException if a Pulsar client error occurs
      */
     private void receiveAndRespond(Consumer<Information> consumer, Producer<Information> producer)
             throws PulsarClientException {
@@ -71,14 +77,15 @@ public class KpDestination {
                                 receiveAndRespond():
                                 \ttopic[{}],
                                 \tkey[{}], sequenceId[{}], messageId[{}], information id[{}]""",
-                        message.getTopicName(), message.getKey(), message.getSequenceId(), message.getMessageId(),
-                        information.getId());
+                        message.getTopicName(), message.getKey(), message.getSequenceId(),
+                        message.getMessageId(), information.getId());
             }
             // Process
             information.setApprovalStatus(atomicBoolean.get() ? ApprovalStatus.APPROVED : ApprovalStatus.REJECTED);
             atomicBoolean.set(!atomicBoolean.get());
             // Produce
-            producer.newMessage().key(KP_KEY).value(information).sendAsync().thenAccept(this::sendOperationCompleted);
+            producer.newMessage().key(KP_KEY).value(information).sendAsync()
+                    .thenAccept(this::sendOperationCompleted);
             consumer.acknowledge(message);
         } catch (Exception e) {
             logger.error("receiveAndRespond(): exception[{}]", e.getMessage());
@@ -90,8 +97,7 @@ public class KpDestination {
     /**
      * Tracks the completion of the send operation.
      *
-     * @param messageId the {@link MessageId} assigned by the broker to the
-     *                  published message
+     * @param messageId the {@link MessageId} assigned by the broker to the published message
      */
     private void sendOperationCompleted(MessageId messageId) {
         logger.debug("sendOperationCompleted(): messageId[{}]", messageId);

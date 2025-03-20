@@ -26,7 +26,7 @@ import static kp.Constants.*;
  * It displays the latest message found in destination topics.<br>
  * Requirement for the latest message display: the producer, which is sending to
  * the destination topic, should be up and running.<br/>
- * The latest message reader reads <b>the next message published after this reader creation</b>.
+ * The latest message reader reads the next message published after this reader creation.
  * </p>
  */
 public class KpReporter {

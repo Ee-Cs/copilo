@@ -1,7 +1,7 @@
 package kp.models;
 
 /**
- * The employee
+ * Represents an employee.
  */
 public class Employee {
     private Long id;
@@ -52,7 +52,7 @@ public class Employee {
     /**
      * Gets the first name
      *
-     * @return the firstName
+     * @return the first name
      */
     public String getFirstName() {
         return firstName;
@@ -61,7 +61,7 @@ public class Employee {
     /**
      * Sets the first name
      *
-     * @param firstName the firstName to set
+     * @param firstName the first name to set
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -70,7 +70,7 @@ public class Employee {
     /**
      * Gets the last name
      *
-     * @return the lastName
+     * @return the last name
      */
     public String getLastName() {
         return lastName;
@@ -79,7 +79,7 @@ public class Employee {
     /**
      * Sets the last name
      *
-     * @param lastName the lastName to set
+     * @param lastName the last name to set
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;

@@ -70,8 +70,8 @@ public class KpMessageDisplayer {
 
         stringBuilder.append("- department:%n- - id[%d], name[%s],%n".formatted(
                 department.getId(), department.getName()));
-        stringBuilder.append("- - money[%s], createdAt[%tT.%<tL]%n".formatted(
-                department.getMoney(), department.getCreatedAt()));
+        stringBuilder.append("- - budget[%s], createdAt[%tT.%<tL]%n".formatted(
+                department.getBudget(), department.getCreatedAt()));
         department.getEmployees().forEach(employee -> displayEmployee(stringBuilder, employee));
     }
 

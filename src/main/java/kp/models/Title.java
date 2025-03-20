@@ -1,7 +1,7 @@
 package kp.models;
 
 /**
- * The job title of the employee.
+ * Represents the job title of the employee.
  */
 public enum Title {
     /**
@@ -20,7 +20,7 @@ public enum Title {
     private final String name;
 
     /**
-     * The constructor.
+     * Default constructor.
      *
      * @param name the name
      */

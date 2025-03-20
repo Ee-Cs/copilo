@@ -5,12 +5,12 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
- * The department
+ * Represents a department.
  */
 public class Department {
     private Long id;
     private String name;
-    private BigDecimal money;
+    private BigDecimal budget;
     private OffsetDateTime createdAt;
     private List<Employee> employees;
 
@@ -24,16 +24,16 @@ public class Department {
     /**
      * Parameterized constructor.
      *
-     * @param id        the id
-     * @param name      the name
-     * @param money     the money
+     * @param id        the department id
+     * @param name      the department name
+     * @param budget    the budget
      * @param employees the list of employees
      */
-    public Department(Long id, String name, BigDecimal money, List<Employee> employees) {
+    public Department(Long id, String name, BigDecimal budget, List<Employee> employees) {
         this.id = id;
         this.name = name;
         this.employees = employees;
-        this.money = money;
+        this.budget = budget;
         this.createdAt = OffsetDateTime.now();
     }
 
@@ -74,21 +74,21 @@ public class Department {
     }
 
     /**
-     * Gets the money.
+     * Gets the budget.
      *
-     * @return the money
+     * @return the budget
      */
-    public BigDecimal getMoney() {
-        return money;
+    public BigDecimal getBudget() {
+        return budget;
     }
 
     /**
-     * Sets the money.
+     * Sets the budget.
      *
-     * @param money the money to set
+     * @param budget the budget to set
      */
-    public void setMoney(BigDecimal money) {
-        this.money = money;
+    public void setBudget(BigDecimal budget) {
+        this.budget = budget;
     }
 
     /**

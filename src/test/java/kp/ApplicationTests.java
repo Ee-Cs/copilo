@@ -154,7 +154,7 @@ class ApplicationTests {
         Assertions.assertTrue(department.getId() > 0, "department id not positive");
         Assertions.assertNotNull(department.getName(), "department name");
         Assertions.assertFalse(department.getName().isBlank(), "department name is blank");
-        Assertions.assertNotNull(department.getMoney(), "department money");
+        Assertions.assertNotNull(department.getBudget(), "department budget");
         Assertions.assertNotNull(department.getCreatedAt(), "department created at");
         Assertions.assertTrue(department.getCreatedAt().isAfter(OffsetDateTime.parse("2023-01-01T00:00:00+00:00")),
                 "department created at");
