@@ -1,0 +1,20 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: third
+  output:
+    ansi:
+      enabled: always
+grpc:
+  server:
+    port: 11113
+management:
+  endpoints:
+    metrics:
+      enabled: true
+    info:
+      enabled: true
+    web:
+      exposure:
+        include: "*"

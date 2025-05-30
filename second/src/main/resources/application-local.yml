@@ -1,0 +1,12 @@
+server:
+  port: 9092
+spring:
+  config:
+    activate:
+      on-profile: local
+grpc:
+  server:
+    port: 12122
+  client:
+    grpcServerOnThird:
+      address: 'static://localhost:12123'

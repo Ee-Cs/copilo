@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option java_package = "kp.proto";
+option java_multiple_files = true;
+option java_outer_classname = "DepartmentProto";
+
+service DepartmentService {
+  rpc GetDepartments(DepartmentsRequest) returns (DepartmentsReply);
+  rpc GetDepartmentById(DepartmentByIdRequest) returns (DepartmentByIdReply);
+}
+
+message DepartmentsRequest {
+}
+message DepartmentsReply {
+  repeated Department department = 1;
+}
+message DepartmentByIdRequest {
+  int32 id = 1;
+}
+message DepartmentByIdReply {
+  Department department = 1;
+}
+message Department {
+  int32 id = 1;
+  string name = 2;
+  repeated Employee employee = 3;
+}
+message Employee {
+  int32 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  Title title = 4;
+}
+enum Title {
+  TITLE_UNSPECIFIED = 0;
+  ANALYST = 1;
+  DEVELOPER = 2;
+  MANAGER = 3;
+}

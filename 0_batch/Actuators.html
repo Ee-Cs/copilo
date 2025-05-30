@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Study 26 Actuators</title>
+    <style>
+        body {
+          background-color: lightyellow;
+        }
+        th, td {
+        }
+        td.black {
+          padding: 5px;
+          border: 2px solid black;
+        }
+        td.orange {
+          padding: 5px;
+          border: 3px solid orange;
+        }
+    </style>
+</head>
+<body>
+<h1>Study 26 Actuators</h1>
+<table>
+    <tr>
+        <td class="orange">
+            Application "<b>first</b>" actuator<br>
+            <a href="http://localhost:8081/actuator">
+                http://localhost:8081/actuator</a>
+        </td>
+        <td class="orange">
+            Application "<b>second</b>" actuator<br>
+            <a href="http://localhost:8082/actuator">
+                http://localhost:8082/actuator
+            </a>
+        </td>
+        <td class="orange">
+            Application "<b>third</b>" actuator<br>
+            <a href="http://localhost:8083/actuator">
+                http://localhost:8083/actuator
+            </a>
+        </td>
+    </tr>
+</table>
+
+<h3>Metrics</h3>
+<ul>
+    <li>Application "<b>first</b>"
+        <ul>
+            <li>gRPC Client
+                <ul>
+                    Counter
+                    <ul>
+                        <li><a href="http://localhost:8081/actuator/metrics/grpc.client.requests.sent">
+                            http://localhost:8081/actuator/metrics/grpc.client.requests.sent</a></li>
+                        <li><a href="http://localhost:8081/actuator/metrics/grpc.client.responses.received">
+                            http://localhost:8081/actuator/metrics/grpc.client.responses.received</a></li>
+                        <li><a href="http://localhost:8081/actuator/metrics/grpc.client.attempt.started">
+                            http://localhost:8081/actuator/metrics/grpc.client.attempt.started</a></li>
+                    </ul>
+                    Timer
+                    <ul>
+                        <li><a href="http://localhost:8081/actuator/metrics/grpc.client.processing.duration">
+                            http://localhost:8081/actuator/metrics/grpc.client.processing.duration</a></li>
+                        <li><a href="http://localhost:8081/actuator/metrics/grpc.client.attempt.duration">
+                            http://localhost:8081/actuator/metrics/grpc.client.attempt.duration</a></li>
+                    </ul>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>Application "<b>second</b>"
+        <ul>
+            <li>gRPC Server
+                <ul>
+                    Counter
+                    <ul>
+                        <li><a href="http://localhost:8082/actuator/metrics/grpc.server.requests.received">
+                            http://localhost:8082/actuator/metrics/grpc.server.requests.received</a></li>
+                        <li><a href="http://localhost:8082/actuator/metrics/grpc.server.responses.sent">
+                            http://localhost:8082/actuator/metrics/grpc.server.responses.sent</a></li>
+                        <li><a href="http://localhost:8082/actuator/metrics/grpc.server.call.started">
+                            http://localhost:8082/actuator/metrics/grpc.server.call.started</a></li>
+                    </ul>
+                    Timer
+                    <ul>
+                        <li><a href="http://localhost:8082/actuator/metrics/grpc.server.processing.duration">
+                            http://localhost:8082/actuator/metrics/grpc.server.processing.duration</a></li>
+                        <li><a href="http://localhost:8082/actuator/metrics/grpc.server.call.duration">
+                            http://localhost:8082/actuator/metrics/grpc.server.call.duration</a></li>
+                    </ul>
+                </ul>
+            </li>
+            <li>gRPC Client
+                <ul>
+                    Counter
+                    <ul>
+                        <li><a href="http://localhost:8082/actuator/metrics/grpc.client.requests.sent">
+                            http://localhost:8082/actuator/metrics/grpc.client.requests.sent</a></li>
+                        <li><a href="http://localhost:8082/actuator/metrics/grpc.client.responses.received">
+                            http://localhost:8082/actuator/metrics/grpc.client.responses.received</a></li>
+                        <li><a href="http://localhost:8082/actuator/metrics/grpc.client.attempt.started">
+                            http://localhost:8082/actuator/metrics/grpc.client.attempt.started</a></li>
+                    </ul>
+                    Timer
+                    <ul>
+                        <li><a href="http://localhost:8082/actuator/metrics/grpc.client.processing.duration">
+                            http://localhost:8082/actuator/metrics/grpc.client.processing.duration</a></li>
+                        <li><a href="http://localhost:8082/actuator/metrics/grpc.client.attempt.duration">
+                            http://localhost:8082/actuator/metrics/grpc.client.attempt.duration</a></li>
+                    </ul>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>Application "<b>third</b>"
+        <ul>
+            <li>gRPC Server
+                <ul>
+                    Counter
+                    <ul>
+                        <li><a href="http://localhost:8083/actuator/metrics/grpc.server.requests.received">
+                            http://localhost:8083/actuator/metrics/grpc.server.requests.received</a></li>
+                        <li><a href="http://localhost:8083/actuator/metrics/grpc.server.responses.sent">
+                            http://localhost:8083/actuator/metrics/grpc.server.responses.sent</a></li>
+                        <li><a href="http://localhost:8083/actuator/metrics/grpc.server.call.started">
+                            http://localhost:8083/actuator/metrics/grpc.server.call.started</a></li>
+                    </ul>
+                    Timer
+                    <ul>
+                        <li><a href="http://localhost:8083/actuator/metrics/grpc.server.processing.duration">
+                            http://localhost:8083/actuator/metrics/grpc.server.processing.duration</a></li>
+                        <li><a href="http://localhost:8083/actuator/metrics/grpc.server.call.duration">
+                            http://localhost:8083/actuator/metrics/grpc.server.call.duration</a></li>
+                    </ul>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+<hr/>
+
+<h3>Metrics for <b>Numbers Chat</b> selected with tag</h3>
+<ul>
+    <li>Application "<b>first</b>"
+        <ul>
+            <li>gRPC Client
+                <ul>
+                    <li>
+                        <a href="http://localhost:8081/actuator/metrics/grpc.client.requests.sent?tag=method:NumbersChat">
+                            The total number of the send requests</a></li>
+                    <li>
+                        <a href="http://localhost:8081/actuator/metrics/grpc.client.responses.received?tag=method:NumbersChat">
+                            The total number of the received responses</a></li>
+                    <li>
+                        <a href="http://localhost:8081/actuator/metrics/grpc.client.attempt.started?tag=grpc.method:NumbersChatService/NumbersChat">
+                            The total number of RPC attempts started from the client side,
+                            including those that have not completed</a></li>
+                    <li>
+                        <a href="http://localhost:8081/actuator/metrics/grpc.client.processing.duration?tag=method:NumbersChat">
+                            The total time taken for the client to complete the call, including network delay</a></li>
+                    <li>
+                        <a href="http://localhost:8081/actuator/metrics/grpc.client.attempt.duration?tag=grpc.method:NumbersChatService/NumbersChat">
+                            The total time taken to complete a client call attempt</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>Application "<b>second</b>"
+        <ul>
+            <li>gRPC Server
+                <ul>
+                    <li>
+                        <a href="http://localhost:8082/actuator/metrics/grpc.server.requests.received?tag=method:NumbersChat">
+                            The total number of the received requests</a></li>
+                    <li>
+                        <a href="http://localhost:8082/actuator/metrics/grpc.server.responses.sent?tag=method:NumbersChat">
+                            The total number of the send responses</a></li>
+                    <li>
+                        <a href="http://localhost:8082/actuator/metrics/grpc.server.call.started?tag=grpc.method:NumbersChatService/NumbersChat">
+                            The total number of the RPC attempts started from the server side,
+                            including those that have not completed</a></li>
+                    <li>
+                        <a href="http://localhost:8082/actuator/metrics/grpc.server.processing.duration?tag=method:NumbersChat">
+                            The total time taken for the server to complete the call</a></li>
+                    <li>
+                        <a href="http://localhost:8082/actuator/metrics/grpc.server.call.duration?tag=grpc.method:NumbersChatService/NumbersChat">
+                            The total time taken to complete a call from server transport's perspective</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+<hr/>
+</body>
+</html>

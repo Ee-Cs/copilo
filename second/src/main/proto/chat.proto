@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "kp.proto";
+option java_multiple_files = true;
+option java_outer_classname = "ChatProto";
+
+// bidirectional streaming RPC
+service WordsChatService {
+  rpc WordsChat(stream WordNote) returns (stream WordNote);
+}
+service NumbersChatService {
+  rpc NumbersChat(stream NumberNote) returns (stream NumberNote);
+}
+message WordNote {
+  string word = 1;
+}
+message NumberNote {
+  int32 number = 1;
+}

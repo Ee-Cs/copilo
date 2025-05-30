@@ -1,0 +1,3 @@
+${AnsiColor.BRIGHT_MAGENTA}████████████████████████████████████████████████████████████████████████████████
+${AnsiColor.BRIGHT_MAGENTA}██████████████████████████████████████████████████████████████████▌${AnsiColor.DEFAULT}GRPC SECOND${AnsiColor.BRIGHT_MAGENTA}▐█
+${AnsiColor.BRIGHT_MAGENTA}████████████████████████████████████████████████████████████████████████████████${AnsiColor.DEFAULT}

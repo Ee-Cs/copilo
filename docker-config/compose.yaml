@@ -1,0 +1,39 @@
+services:
+  first:
+    container_name: first
+    build:
+      context: ..
+      dockerfile: docker-config/First.Dockerfile
+    depends_on:
+      - second
+      - third
+    ports:
+      - "8081:8081"
+    networks:
+      - net
+    restart: unless-stopped
+  second:
+    container_name: second
+    build:
+      context: ..
+      dockerfile: docker-config/Second.Dockerfile
+    depends_on:
+      - third
+    ports:
+      - "8082:8082"
+    networks:
+      - net
+    restart: unless-stopped
+  third:
+    container_name: third
+    build:
+      context: ..
+      dockerfile: docker-config/Third.Dockerfile
+    ports:
+      - "8083:8083"
+    networks:
+      - net
+    restart: unless-stopped
+networks:
+  net:
+    driver: bridge

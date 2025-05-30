@@ -1,0 +1,9 @@
+server:
+  port: 9093
+spring:
+  config:
+    activate:
+      on-profile: local
+grpc:
+  server:
+    port: 12123

@@ -1,0 +1,10 @@
+server:
+  port: 9091
+spring:
+  config:
+    activate:
+      on-profile: local
+grpc:
+  client:
+    grpcServerOnSecond:
+      address: 'static://localhost:12122'
