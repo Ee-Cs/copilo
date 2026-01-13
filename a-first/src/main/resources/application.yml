@@ -1,0 +1,22 @@
+server:
+  port: 9091
+spring:
+  application:
+    name: a-first
+  output:
+    ansi:
+      enabled: always
+grpc:
+  client:
+    grpcServerOnSecond:
+      address: 'static://localhost:12122'
+      negotiation-type: plaintext
+management:
+  endpoints:
+    metrics:
+      enabled: true
+    info:
+      enabled: true
+    web:
+      exposure:
+        include: "*"

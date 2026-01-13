@@ -1,0 +1,22 @@
+server:
+  port: 9093
+spring:
+  application:
+    name: z-first
+  grpc:
+    client:
+      channels:
+        grpcServerOnSecond:
+          address: 0.0.0.0:9094
+  output:
+    ansi:
+      enabled: always
+#management:
+#  endpoints:
+#    metrics:
+#      enabled: true
+#    info:
+#      enabled: true
+#    web:
+#      exposure:
+#        include: "*"
