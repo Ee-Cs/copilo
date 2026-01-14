@@ -1,3 +1,0 @@
-${AnsiColor.BRIGHT_MAGENTA}████████████████████████████████████████████████████████████████████████████████
-${AnsiColor.BRIGHT_MAGENTA}██████████████████████████████████████████████████████████████████▌${AnsiColor.DEFAULT}AAAA SECOND${AnsiColor.BRIGHT_MAGENTA}▐█
-${AnsiColor.BRIGHT_MAGENTA}████████████████████████████████████████████████████████████████████████████████${AnsiColor.DEFAULT}
