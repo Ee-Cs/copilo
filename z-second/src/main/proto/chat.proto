@@ -4,17 +4,10 @@ option java_package = "kp.proto";
 option java_multiple_files = true;
 option java_outer_classname = "ChatProto";
 
-// bidirectional streaming RPC
 service NumbersChatService {
-  // ORIGINAL NUM CHAT ORIGINAL NUM CHAT ORIGINAL NUM CHAT ORIGINAL NUM CHAT ORIGINAL
   rpc NumbersChat(stream NumberNote) returns (stream NumberNote);
-  // ALT SINGLE ALT SINGLE ALT SINGLE ALT SINGLE ALT SINGLE ALT SINGLE ALT SINGLE
-  rpc NumbersSingleReply(NumberNote) returns (NumberNote) {}
-  // ALT STREAM SERVER ALT STREAM SERVER ALT STREAM SERVER ALT STREAM SERVER ALT STREAM SERVER
-  rpc NumbersStreamServerReply(NumberNote) returns (stream NumberNote) {}
-  // ALT STREAM CLIENT ALT STREAM CLIENT ALT STREAM CLIENT ALT STREAM CLIENT ALT STREAM CLIENT
-  rpc NumbersStreamClientReply(stream NumberNote) returns (NumberNote) {}
 }
+
 message NumberNote {
   int32 number = 1;
 }

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
@@ -25,11 +27,13 @@ public class NumbersChatService {
         this.numbersChatServiceStub = numbersChatServiceStub;
     }
 
+    CountDownLatch countDownLatch;
+
     public boolean startNumbersChat(int limit) {
 
         final Queue<Integer> queue = new ConcurrentLinkedQueue<>();
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        final StreamObserver<NumberNote> responseObserver = createResponseObserver(queue, countDownLatch);
+        countDownLatch = new CountDownLatch(1);
+        final StreamObserver<NumberNote> responseObserver = createResponseObserver(queue);
         final StreamObserver<NumberNote> requestObserver = numbersChatServiceStub.numbersChat(responseObserver);
         boolean result = runNumbersChat(limit, queue, requestObserver);
         try {
@@ -42,25 +46,24 @@ public class NumbersChatService {
         return result;
     }
 
-    private StreamObserver<NumberNote> createResponseObserver(
-            Queue<Integer> queue, CountDownLatch countDownLatch) {
+    private StreamObserver<NumberNote> createResponseObserver(Queue<Integer> queue) {
 
         return new StreamObserver<>() {
             @Override
             public void onNext(NumberNote numberNote) {
                 queue.add(numberNote.getNumber());
-                logger.info("StreamObserver ⬤ onNext(): number[{}]", numberNote.getNumber());
+                logger.info("StreamObserver::onNext(): number[{}]", numberNote.getNumber());
             }
 
             @Override
             public void onError(Throwable throwable) {
-                logger.error("StreamObserver ⬤ onError(): exception[{}]", throwable.getMessage());
                 countDownLatch.countDown();
+                logger.error("StreamObserver::onError(): exception[{}] <<<<< COUNT WAS DECREMENTED", throwable.getMessage());
             }
 
             @Override
             public void onCompleted() {
-                logger.info("StreamObserver ⬤ onCompleted():");
+                logger.info("StreamObserver::onCompleted():");
                 countDownLatch.countDown();
             }
         };
@@ -72,43 +75,52 @@ public class NumbersChatService {
         final AtomicInteger atomic = new AtomicInteger();
         try {
             NumberNote numberNote = NumberNote.newBuilder().setNumber(START_NUMBER).build();
-            logger.info("\n" + "#".repeat(150));
+            logger.info("\n" + "#".repeat(150) + " a");
             requestObserver.onNext(numberNote);
             logger.info("runNumbersChat(): sent first number[{}]", numberNote.getNumber());
-            if (atomic.get() == limit) {
-                logger.warn("runNumbersChat(): no loop run, reached limit[{}]", limit);
-            }
             while (atomic.get() < limit) {
+                if (countDownLatch.getCount() == 0) {
+                    logger.error("runNumbersChat(): <<<<< LATCH COUNT IS ZERO --> BREAKING LOOP");
+                    break;
+                }
                 if (atomic.incrementAndGet() >= limit) {
                     logger.info("runNumbersChat(): stopping at limit[{}]", limit);
                     break;
                 }
-                final Integer receivedNumber = queue.poll();
-                if (receivedNumber == null) {
-                    logger.warn("runNumbersChat(): receivedNumber is null");
+                final Integer numberReceived = getReceivedNumber(queue);
+                if (numberReceived == null) {
+                    logger.warn("runNumbersChat(): received number is null");
                     continue;
                 }
-                numberNote = NumberNote.newBuilder().setNumber(receivedNumber + 1).build();
-                execute(requestObserver, numberNote);
-                logger.info("runNumbersChat(): number[{}]", receivedNumber);
+                final int numberSent = numberReceived + 1;
+                numberNote = NumberNote.newBuilder().setNumber(numberSent).build();
+                requestObserver.onNext(numberNote);
+                logger.info("runNumbersChat(): received number[{}], sent number[{}]", numberReceived, numberSent);
             }
-        } catch (RuntimeException e) {
-            logger.error("runNumbersChat(): RuntimeException[{}]", e.getMessage());
+        } catch (Exception e) {
+            logger.error("runNumbersChat(): exception[{}]", e.getMessage());
             requestObserver.onError(e);
             return false;
         }
         requestObserver.onCompleted();
-        logger.info("runNumbersChat(): queue number[{}], completed", queue.peek());
+        logger.info("runNumbersChat(): completed");
         return true;
     }
 
-    //FIXME ################################################################################
-    private void execute(StreamObserver<NumberNote> requestObserver, NumberNote numberNote) {
-
+    private Integer getReceivedNumber(Queue<Integer> queue) {
+        final Instant start = Instant.now();
+        logger.error("getReceivedNumber(): countDownLatch[{}] %%%%% queue.peek B-E-F-O-R-E %%%%%", countDownLatch.getCount());
+        boolean flag = queue.peek() == null;
         try {
-            requestObserver.onNext(numberNote);
-        } catch (Throwable e) {
-            logger.error("execute(): exception[{}]", e.getMessage());
+            for (int counter = 0; flag || counter < 30000; counter++) {
+                Thread.sleep(1);
+                flag = flag && queue.peek() == null;
+            }
+        } catch (InterruptedException e) {
+            //ignore
         }
+        logger.error("getReceivedNumber(): countDownLatch[{}] %%%%% queue.peek A-F-T-E-R %%%%% time elapsed[{}]",
+                countDownLatch.getCount(), Duration.between(start, Instant.now()).toSeconds());
+        return queue.poll();
     }
 }
